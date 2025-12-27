@@ -3,19 +3,19 @@ import { motion } from 'framer-motion';
 import { LiaSnowflakeSolid } from "react-icons/lia";
 import ChristmasSleighSVG from './ChristmasSleighSVG';
 
-const ChristmasScene = () => {
+const ChristmasScene = ({ className }) => {
     // Generate snowflakes for overlay animation
     const snowflakes = Array.from({ length: 70 }).map((_, i) => ({
         id: i,
         left: `${Math.random() * 100}%`,
         animationDuration: `${Math.random() * 10 + 10}s`, // Slower fall
-        animationDelay: `${Math.random() * 10}s`,
+        animationDelay: `${-Math.random() * 20}s`,
         size: Math.random() * 15 + 5, // Slightly larger for icons
         opacity: Math.random() * 0.5 + 0.3
     }));
 
     return (
-        <div className="relative w-full top-[20px] h-[700px] bg-[#050E3C] overflow-hidden border-t border-white/5">
+        <div className={`relative w-full bg-[#050E3C] overflow-hidden border-t border-white/5 ${className || 'h-[700px]'}`}>
             {/* The SVG Scene */}
             <div className="absolute inset-0 w-full h-full">
                 <ChristmasSleighSVG className="w-full h-full object-cover" />
