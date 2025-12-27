@@ -15,7 +15,7 @@ const ChristmasScene = ({ className }) => {
     }));
 
     return (
-        <div className={`relative w-full bg-santa-navy-dark overflow-hidden border-t border-white/5 ${className || 'h-[700px]'}`}>
+        <div className={`fixed top-0 left-0 w-full h-screen overflow-hidden border-t border-white/5 -z-10 ${className || ''}`}>
             {/* The SVG Scene */}
             <div className="absolute inset-0 w-full h-full">
                 <ChristmasSleighSVG className="w-full h-full object-cover" />
