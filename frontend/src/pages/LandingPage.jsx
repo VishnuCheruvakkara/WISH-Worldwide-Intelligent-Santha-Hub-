@@ -27,7 +27,7 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#050E3C] text-white overflow-hidden relative font-sans">
+        <div className="min-h-screen bg-santa-navy-dark text-white overflow-hidden relative font-sans">
             <Navbar />
 
             {/* CHRISTMAS SCENE COMPONENT */}
@@ -45,7 +45,7 @@ const LandingPage = () => {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-4xl font-bold mb-4">What is <span className="text-[#FF3838]">W.I.S.H.</span>?</h2>
+                        <h2 className="text-4xl font-bold mb-4">What is <span className="text-santa-red">W.I.S.H.</span>?</h2>
                         <p className="text-gray-400 max-w-2xl mx-auto">More than just an app WISH ( Worldwide Intelligent Santha Hub ), it represents our mission to connect hearts globally through intelligent compassion.</p>
                     </motion.div>
 
@@ -64,11 +64,11 @@ const LandingPage = () => {
                                 viewport={{ once: true }}
                                 className="bg-white/5 border border-white/5 p-8 rounded-2xl hover:bg-white/10 transition-all hover:-translate-y-2 group"
                             >
-                                <div className="w-12 h-12 bg-[#FF3838]/10 rounded-lg flex items-center justify-center text-[#FF3838] mb-6 group-hover:bg-[#FF3838] group-hover:text-white transition-colors">
+                                <div className="w-12 h-12 bg-santa-red/10 rounded-lg flex items-center justify-center text-santa-red mb-6 group-hover:bg-santa-red group-hover:text-white transition-colors">
                                     <item.icon size={24} />
                                 </div>
                                 <h3 className="text-2xl font-bold mb-2">
-                                    <span className="text-[#FF3838]">{item.letter}</span>{item.word.substring(1)}
+                                    <span className="text-santa-red">{item.letter}</span>{item.word.substring(1)}
                                 </h3>
                                 <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
                             </motion.div>
@@ -79,8 +79,8 @@ const LandingPage = () => {
 
             {/* Background Decor - Fixed */}
             <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                <div className="absolute top-[10%] left-[10%] w-72 h-72 bg-[#002455] rounded-full blur-[120px] opacity-40 animate-pulse"></div>
-                <div className="absolute bottom-[20%] right-[10%] w-96 h-96 bg-[#DC0000] rounded-full blur-[150px] opacity-20 animate-pulse delay-1000"></div>
+                <div className="absolute top-[10%] left-[10%] w-72 h-72 bg-santa-navy rounded-full blur-[120px] opacity-40 animate-pulse"></div>
+                <div className="absolute bottom-[20%] right-[10%] w-96 h-96 bg-santa-red-dark rounded-full blur-[150px] opacity-20 animate-pulse delay-1000"></div>
             </div>
 
             <main className="relative z-10">
@@ -98,7 +98,7 @@ const LandingPage = () => {
                             <motion.h1 variants={fadeIn} className="text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
                                 Believe in <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">The Magic</span> of <br />
-                                <span className="text-[#FF3838]">AI Santha</span>
+                                <span className="text-santa-red">AI Santha</span>
                             </motion.h1>
 
                             <motion.p variants={fadeIn} className="text-lg text-gray-400 max-w-xl leading-relaxed">
@@ -110,7 +110,7 @@ const LandingPage = () => {
                                     <Button>Start Your Wishlist</Button>
                                 </Link>
                                 <Button variant="secondary" className="gap-2">
-                                    <FaGift className="text-[#FF3838]" />
+                                    <FaGift className="text-santa-red" />
                                     How it Works
                                 </Button>
                             </motion.div>
@@ -123,14 +123,14 @@ const LandingPage = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 1, delay: 0.5 }}
                         >
-                            <div className="relative bg-[#002455]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl animate-float transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
-                                <div className="absolute -top-12 -right-12 text-[#FF3838]/20 animate-spin-slow">
+                            <div className="relative bg-santa-navy/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl animate-float transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
+                                <div className="absolute -top-12 -right-12 text-santa-red/20 animate-spin-slow">
                                     <FaSnowflake size={140} />
                                 </div>
 
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#FF3838] shadow-lg">
+                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-santa-red shadow-lg">
                                             {/* Placeholder for Santa Portrait */}
                                             <img src={santaPortrait} alt="AI Santa" className="w-full h-full object-cover" />
                                         </div>
@@ -147,7 +147,7 @@ const LandingPage = () => {
                                         <div className="bg-white/5 p-4 rounded-xl rounded-tl-none border border-white/5 max-w-[85%]">
                                             <p className="text-sm text-gray-300">Ho Ho Ho! Greetings, my dear child. The stars are shining bright tonight. What is your heart's desire?</p>
                                         </div>
-                                        <div className="bg-[#FF3838]/20 p-4 rounded-xl rounded-tr-none border border-[#FF3838]/20 max-w-[85%] ml-auto">
+                                        <div className="bg-santa-red/20 p-4 rounded-xl rounded-tr-none border border-santa-red/20 max-w-[85%] ml-auto">
                                             <p className="text-sm text-white">I really want to build something that makes people happy.</p>
                                         </div>
                                         <div className="bg-white/5 p-4 rounded-xl rounded-tl-none border border-white/5 max-w-[85%]">

@@ -8,11 +8,11 @@ import ChristmasScene from '../components/ChristmasScene';
 
 const LoginPage = () => {
     return (
-        <div className="min-h-screen bg-[#050E3C] text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
-            <div className="fixed inset-0 z-0 opacity-80 pointer-events-none">
+            <div className="fixed inset-0 z-0 opacity-90 pointer-events-none">
                 <ChristmasScene className="h-full" />
             </div>
 
@@ -49,7 +49,7 @@ const LoginPage = () => {
                                 <a href="#" className="text-[#FF3838] hover:text-[#DC0000] font-medium transition-colors">Forgot Password?</a>
                             </div>
 
-                            <Button className="w-full shadow-lg shadow-[#FF3838]/20">Sign In</Button>
+                            <Button className="w-full shadow-lg shadow-santa-red/20">Sign In</Button>
 
                             <div className="relative flex items-center py-2">
                                 <div className="flex-grow border-t border-white/10"></div>

@@ -8,7 +8,7 @@ import ChristmasScene from '../components/ChristmasScene';
 
 const SignupPage = () => {
     return (
-        <div className="min-h-screen bg-[#050E3C] text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
@@ -51,7 +51,7 @@ const SignupPage = () => {
                                 By signing up, you agree to our <a href="#" className="text-[#FF3838]">Terms of Service</a> and <a href="#" className="text-[#FF3838]">Privacy Policy</a>. Nothing naughty!
                             </div>
 
-                            <Button className="w-full shadow-lg shadow-[#FF3838]/20">Create Account</Button>
+                            <Button className="w-full shadow-lg shadow-santa-red/20">Create Account</Button>
 
                             <div className="relative flex items-center py-2">
                                 <div className="flex-grow border-t border-white/10"></div>

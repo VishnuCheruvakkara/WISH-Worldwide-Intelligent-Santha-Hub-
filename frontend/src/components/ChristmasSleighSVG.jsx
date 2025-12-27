@@ -99,7 +99,7 @@ const ChristmasSleighSVG = ({ className }) => {
             />
 
             {/* Vignette / Atmosphere */}
-            <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-[#050E3C]/80 pointer-events-none z-40"></div>
+            <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-santa-navy-dark/80 pointer-events-none z-40"></div>
 
         </div>
     );

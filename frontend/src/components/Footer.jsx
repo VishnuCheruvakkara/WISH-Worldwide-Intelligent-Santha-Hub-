@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer className="relative bg-[#050E3C] text-white pt-20 pb-10 border-t border-white/10 overflow-hidden">
+        <footer className="relative bg-santa-navy-dark text-white pt-20 pb-10 border-t border-white/10 overflow-hidden">
 
             {/* Background Glow */}
             <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute bottom-[-10%] left-[20%] w-96 h-96 bg-[#002455] rounded-full blur-[120px] opacity-40"></div>
-                <div className="absolute bottom-[-10%] right-[20%] w-96 h-96 bg-[#DC0000] rounded-full blur-[120px] opacity-20"></div>
+                <div className="absolute bottom-[-10%] left-[20%] w-96 h-96 bg-santa-navy rounded-full blur-[120px] opacity-40"></div>
+                <div className="absolute bottom-[-10%] right-[20%] w-96 h-96 bg-santa-red-dark rounded-full blur-[120px] opacity-20"></div>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -17,9 +17,9 @@ const Footer = () => {
 
                     {/* Brand Column */}
                     <div className="space-y-4">
-                        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-white hover:text-[#FF3838] transition-colors">
-                            <FaSnowflake className="text-[#FF3838] animate-spin-slow" />
-                            <span className="tracking-tighter">WISH<span className="text-[#FF3838]">.AI</span></span>
+                        <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-white hover:text-santa-red transition-colors">
+                            <FaSnowflake className="text-santa-red animate-spin-slow" />
+                            <span className="tracking-tighter">WISH<span className="text-santa-red">.AI</span></span>
                         </Link>
                         <div className="space-y-1 text-sm text-gray-400 font-medium">
                             <p><span className="text-white">W</span>orldwide</p>
@@ -37,7 +37,7 @@ const Footer = () => {
                         <h4 className="font-bold text-lg mb-6">Explore</h4>
                         <ul className="space-y-3 text-gray-400">
                             <li><Link to="/" className="hover:text-[#FF3838] transition-colors">Home</Link></li>
-                            <li><Link to="/about" className="hover:text-[#FF3838] transition-colors">About Santha</Link></li>
+                            <li><Link to="/about" className="hover:text-[#FF3838] transition-colors">About</Link></li>
                             <li><Link to="/wishes" className="hover:text-[#FF3838] transition-colors">Wishlist</Link></li>
                             <li><Link to="/login" className="hover:text-[#FF3838] transition-colors">Login / Sign Up</Link></li>
                         </ul>
@@ -64,7 +64,7 @@ const Footer = () => {
                                     className="w-10 h-10 rounded-full bg-white/5 
                  flex items-center justify-center 
                  transition-all text-white
-                 hover:bg-[#FF3838] hover:scale-110"
+                 hover:bg-santa-red hover:scale-110"
                                 >
                                     <Icon className="w-5 h-5" />
                                 </a>

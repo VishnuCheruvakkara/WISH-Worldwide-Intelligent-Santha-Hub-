@@ -6,7 +6,7 @@ const Input = ({ label, type = "text", placeholder, value, onChange, icon: Icon,
             {label && <label className="text-sm font-medium text-gray-200 ml-1">{label}</label>}
             <div className="relative group">
                 {Icon && (
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#FF3838] transition-colors">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-santa-red transition-colors">
                         <Icon size={20} />
                     </div>
                 )}
@@ -15,8 +15,8 @@ const Input = ({ label, type = "text", placeholder, value, onChange, icon: Icon,
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
-                    className={`w-full bg-[#002455]/50 border border-white/10 rounded-xl py-3 px-4 ${Icon ? 'pl-11' : ''} 
-            text-white placeholder-gray-400 focus:outline-none focus:border-[#FF3838] focus:ring-1 focus:ring-[#FF3838] 
+                    className={`w-full bg-santa-navy/50 border border-white/10 rounded-xl py-3 px-4 ${Icon ? 'pl-11' : ''} 
+            text-white placeholder-gray-400 focus:outline-none focus:border-santa-red focus:ring-1 focus:ring-santa-red 
             transition-all duration-300 backdrop-blur-sm`}
                 />
             </div>
