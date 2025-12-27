@@ -1,13 +1,13 @@
 import React from 'react';
 import { FaSnowflake, FaGift, FaStar, FaGlobe, FaLightbulb, FaHeart, FaNetworkWired } from 'react-icons/fa';
-import Button from '../components/Button';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ChristmasScene from '../components/ChristmasScene';
+import Button from '../../components/ui/Button';
+import Navbar from '../../components/navbar/Navbar';
+import Footer from '../../components/footer/Footer';
+import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import santaPortrait from '../assets/santa_portrait.png';
+import santaPortrait from '../../assets/santa_portrait.png';
 
 const LandingPage = () => {
 

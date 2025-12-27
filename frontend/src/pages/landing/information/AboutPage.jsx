@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ChristmasScene from '../components/ChristmasScene';
+import Navbar from '../../../components/navbar/Navbar';
+import Footer from '../../../components/footer/Footer';
+import ChristmasScene from '../../../components/christmas-animation/ChristmasScene';
 import { FaSnowflake, FaGift, FaHeart, FaMagic } from 'react-icons/fa';
 
 const AboutPage = () => {

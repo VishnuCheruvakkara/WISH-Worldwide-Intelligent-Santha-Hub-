@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHatCowboy, FaStar, FaScroll, FaMagic } from 'react-icons/fa';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import Navbar from '../components/Navbar';
-import ChristmasScene from '../components/ChristmasScene';
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
+import Navbar from '../../components/navbar/Navbar';
+import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
 
 const SantaLoginPage = () => {
     const navigate = useNavigate();

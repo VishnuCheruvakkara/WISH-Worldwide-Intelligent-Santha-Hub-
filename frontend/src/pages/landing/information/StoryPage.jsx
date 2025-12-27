@@ -1,14 +1,14 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import ChristmasScene from '../components/ChristmasScene';
+import Navbar from '../../../components/navbar/Navbar';
+import Footer from '../../../components/footer/Footer';
+import ChristmasScene from '../../../components/christmas-animation/ChristmasScene';
 import { FaSnowflake, FaMagic } from 'react-icons/fa';
-import stNicholasImg from '../assets/st_nicholas.png';
-import sleighOriginImg from '../assets/sleigh_origin.jpg';
-import wishFutureImg from '../assets/wish_future.png';
-import voyageImg from '../assets/the_voyage_to_holy_land.png';
-import redSuitImg from '../assets/The Red Suit & North Pole.png';
-import jollyStandardImg from '../assets/The Jolly Standard.jpg';
+import stNicholasImg from '../../../assets/st_nicholas.png';
+import sleighOriginImg from '../../../assets/sleigh_origin.jpg';
+import wishFutureImg from '../../../assets/wish_future.png';
+import voyageImg from '../../../assets/the_voyage_to_holy_land.png';
+import redSuitImg from '../../../assets/The Red Suit & North Pole.png';
+import jollyStandardImg from '../../../assets/The Jolly Standard.jpg';
 
 const StoryPage = () => {
     return (

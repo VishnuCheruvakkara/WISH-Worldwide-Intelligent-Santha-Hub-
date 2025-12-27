@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import moonImg from '../assets/moon.png';
-import santaImg from '../assets/santa.png';
-import treeImg from '../assets/tree.png';
+import moonImg from "../../assets/moon.png"
+import santaImg from '../../assets/santa.png';
+import treeImg from '../../assets/tree.png';
 
 const ChristmasSleighSVG = ({ className }) => {
     const containerRef = useRef(null);

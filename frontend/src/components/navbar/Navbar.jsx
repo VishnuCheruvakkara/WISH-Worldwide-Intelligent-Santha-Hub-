@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaSnowflake } from 'react-icons/fa';
-import Button from './Button';
+import Button from '../ui/Button';
 
 const Navbar = () => {
     const location = useLocation();
