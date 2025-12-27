@@ -4,14 +4,22 @@ import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import Navbar from '../components/Navbar';
+import ChristmasScene from '../components/ChristmasScene';
 
 const LoginPage = () => {
     return (
         <div className="min-h-screen bg-[#050E3C] text-white flex flex-col justify-center items-center relative overflow-hidden">
             <Navbar />
 
+            {/* Christmas Scene Background */}
+            <div className="absolute inset-0 z-0 opacity-50">
+                <div className="w-full h-full relative">
+                    <ChristmasScene />
+                </div>
+            </div>
+
             <div className="w-full max-w-md p-8 relative z-10">
-                <div className="bg-[#002455]/60 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                <div className="bg-[#002455]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
                     {/* Decor */}
                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF3838] rounded-full blur-[60px] opacity-20"></div>
 

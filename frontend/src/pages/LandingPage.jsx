@@ -35,7 +35,10 @@ const LandingPage = () => {
 
             {/* WISH ACRONYM SECTION */}
             <section className="py-24 bg-[#011228]/50 backdrop-blur-sm relative">
-                <div className="container mx-auto px-6">
+                {/* Top Gradient for blending with Christmas Scene */}
+                <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-black to-transparent pointer-events-none z-10"></div>
+
+                <div className="container mx-auto px-6 relative z-20">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"

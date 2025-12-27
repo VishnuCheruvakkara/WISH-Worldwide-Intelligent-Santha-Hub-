@@ -56,20 +56,21 @@ const Footer = () => {
                     {/* Social & Credits */}
                     <div>
                         <h4 className="font-bold text-lg mb-6">Connect</h4>
-                        <div className="flex gap-4 mb-6">
-                            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3838] hover:scale-110 transition-all text-white">
-                                <FaLinkedin size={20} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3838] hover:scale-110 transition-all text-white">
-                                <FaYoutube size={20} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3838] hover:scale-110 transition-all text-white">
-                                <FaInstagram size={20} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3838] hover:scale-110 transition-all text-white">
-                                <FaGithub size={20} />
-                            </a>
+                        <div className="flex gap-4 mb-6 flex-wrap">
+                            {[FaLinkedin, FaYoutube, FaInstagram, FaGithub].map((Icon, i) => (
+                                <a
+                                    key={i}
+                                    href="#"
+                                    className="w-10 h-10 rounded-full bg-white/5 
+                 flex items-center justify-center 
+                 transition-all text-white
+                 hover:bg-[#FF3838] hover:scale-110"
+                                >
+                                    <Icon className="w-5 h-5" />
+                                </a>
+                            ))}
                         </div>
+
                         <div className="text-sm text-gray-500">
                             <p>Designed & Developed by</p>
                             <p className="text-white font-semibold mt-1">Vishnu Cheruvakkara</p>
