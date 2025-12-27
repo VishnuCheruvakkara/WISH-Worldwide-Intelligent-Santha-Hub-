@@ -66,7 +66,6 @@ const AboutPage = () => {
                     </div>
                 </div>
 
-                {/* Mission Statement */}
                 <div className="bg-transparent border border-white/10 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden backdrop-blur-sm max-w-4xl mx-auto">
                     {/* Subtle glow instead of full gradient background */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-santa-navy/40 -z-10"></div>

@@ -5,6 +5,7 @@ import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import SantaLoginPage from '../pages/SantaLoginPage';
 import AboutPage from '../pages/AboutPage';
+import StoryPage from '../pages/StoryPage';
 
 const router = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: '/about',
         element: <AboutPage />,
+    },
+    {
+        path: '/story',
+        element: <StoryPage />,
     },
     {
         path: '/login',
