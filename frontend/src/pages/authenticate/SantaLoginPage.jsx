@@ -32,8 +32,13 @@ const SantaLoginPage = () => {
                 user: { id, username, email, is_admin }
             }));
 
-            showToast.success("Welcome back, Grand Santha! The North Pole is under your command. 🎅✨");
-            navigate('/');
+            showToast.success(`Welcome back, ${username}!`);
+            // Redirect based on role
+            if (is_admin) {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             showToast.error(err.response?.data?.message || 'The magic code seems incorrect. Only the true Santha may enter!');
         } finally {

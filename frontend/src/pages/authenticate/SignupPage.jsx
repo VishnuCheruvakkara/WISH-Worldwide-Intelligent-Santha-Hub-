@@ -42,7 +42,12 @@ const SignupPage = () => {
             }));
 
             showToast.success(`Welcome to the family, ${username}! 🎄`);
-            navigate('/');
+            // Redirect based on role
+            if (is_admin) {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             showToast.error(err.response?.data?.message || 'Validation failed. Please check your details.');
         } finally {

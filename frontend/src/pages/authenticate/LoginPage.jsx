@@ -35,7 +35,12 @@ const LoginPage = () => {
             }));
 
             showToast.success(`Welcome back, ${username}!`);
-            navigate('/');
+            // Redirect based on role
+            if (is_admin) {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             showToast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
