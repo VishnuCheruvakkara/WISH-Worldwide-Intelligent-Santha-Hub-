@@ -1,8 +1,5 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import moonImg from "../../assets/moon.png"
-import santaImg from '../../assets/santa.png';
-import treeImg from '../../assets/tree.png';
 
 const ChristmasSleighSVG = ({ className }) => {
     const containerRef = useRef(null);
@@ -69,7 +66,7 @@ const ChristmasSleighSVG = ({ className }) => {
             {/* Center - Large Moon - Moved Up */}
             <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[550px] h-[350px] md:h-[550px] z-10 flex items-center justify-center">
                 <img
-                    src={moonImg}
+                    src="/images/backgrounds/moon.png"
                     alt="Full Moon"
                     className="w-full h-full object-contain drop-shadow-[0_0_80px_rgba(255,255,230,0.4)]"
                 />
@@ -81,7 +78,7 @@ const ChristmasSleighSVG = ({ className }) => {
                 className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[400px] pointer-events-none"
             >
                 <img
-                    src={santaImg}
+                    src="/images/characters/santa.png"
                     alt="Santa Sleigh"
                     className="w-full h-auto object-contain animate-float"
                 />
@@ -91,7 +88,7 @@ const ChristmasSleighSVG = ({ className }) => {
             <div
                 className="absolute bottom-0 left-0 w-full h-[30%] z-30"
                 style={{
-                    backgroundImage: `url(${treeImg})`,
+                    backgroundImage: `url('/images/elements/tree.png')`,
                     backgroundRepeat: 'repeat-x',
                     backgroundSize: 'contain', // contain ensures trees show fully without cutoff, or cover if we want no gaps. 'contain' + repeat-x works for a strip.
                     backgroundPosition: 'bottom center'

@@ -7,7 +7,6 @@ import ChristmasScene from '../../components/christmas-animation/ChristmasScene'
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import santaPortrait from '../../assets/santa_portrait.png';
 
 const LandingPage = () => {
 
@@ -141,7 +140,7 @@ const LandingPage = () => {
                                         <div className="flex items-center gap-4 border-b border-white/10 pb-6">
                                             <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-santa-red shadow-lg">
                                                 {/* Placeholder for Santa Portrait */}
-                                                <img src={santaPortrait} alt="AI Santa" className="w-full h-full object-cover" />
+                                                <img src="/images/characters/santa_portrait.png" alt="AI Santa" className="w-full h-full object-cover" />
                                             </div>
                                             <div>
                                                 <h3 className="text-xl font-bold">Santha AI</h3>

@@ -3,12 +3,6 @@ import Navbar from '../../../components/navbar/Navbar';
 import Footer from '../../../components/footer/Footer';
 import ChristmasScene from '../../../components/christmas-animation/ChristmasScene';
 import { FaSnowflake, FaMagic } from 'react-icons/fa';
-import stNicholasImg from '../../../assets/st_nicholas.png';
-import sleighOriginImg from '../../../assets/sleigh_origin.jpg';
-import wishFutureImg from '../../../assets/wish_future.png';
-import voyageImg from '../../../assets/the_voyage_to_holy_land.png';
-import redSuitImg from '../../../assets/The Red Suit & North Pole.png';
-import jollyStandardImg from '../../../assets/The Jolly Standard.jpg';
 
 const StoryPage = () => {
     return (
@@ -56,7 +50,7 @@ const StoryPage = () => {
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
                             <div className="md:w-5/12 order-1 md:order-2">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={stNicholasImg} alt="St Nicholas" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/st_nicholas.png" alt="St Nicholas" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                         </div>
@@ -65,7 +59,7 @@ const StoryPage = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={voyageImg} alt="Voyage to Holland" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/the_voyage_to_holy_land.png" alt="Voyage to Holland" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
@@ -90,7 +84,7 @@ const StoryPage = () => {
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
                             <div className="md:w-5/12 order-1 md:order-2">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={sleighOriginImg} alt="Sleigh Origin" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/sleigh_origin.jpg" alt="Sleigh Origin" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                         </div>
@@ -99,7 +93,7 @@ const StoryPage = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={redSuitImg} alt="Thomas Nast Santa" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/red_suit_north_pole.png" alt="Thomas Nast Santa" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
@@ -124,7 +118,7 @@ const StoryPage = () => {
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
                             <div className="md:w-5/12 order-1 md:order-2">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={jollyStandardImg} alt="Jolly Standard Santa" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/jolly_standard.jpg" alt="Jolly Standard Santa" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                         </div>
@@ -133,7 +127,7 @@ const StoryPage = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
-                                    <img src={wishFutureImg} alt="W.I.S.H. Future" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
+                                    <img src="/images/story/wish_future.png" alt="W.I.S.H. Future" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-santa-red text-white rounded-full z-10 hidden md:flex items-center justify-center border-4 border-santa-navy">
