@@ -100,7 +100,14 @@ WSGI_APPLICATION = 'wish_backend.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",  # PostgreSQL
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
+    }
 }
 
 
