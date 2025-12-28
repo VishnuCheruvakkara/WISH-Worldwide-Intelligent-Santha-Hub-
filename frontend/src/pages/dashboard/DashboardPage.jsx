@@ -9,7 +9,7 @@ const DashboardPage = () => {
                 <motion.h1
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
+                    className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
                 >
                     Merry Dashboard! 🎄
                 </motion.h1>

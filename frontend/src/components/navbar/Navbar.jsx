@@ -48,19 +48,20 @@ const Navbar = () => {
                     <span className="tracking-tighter">WISH<span className="text-santa-red">.AI</span></span>
                 </Link>
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-6">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.path}
-                            to={link.path}
-                            className={`transition-colors text-sm font-medium ${location.pathname === link.path ? 'text-santa-red' : 'text-gray-300 hover:text-white'
-                                }`}
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                </div>
+                {!isAuthenticated && (
+                    <div className="hidden md:flex items-center gap-6">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                className={`transition-colors text-sm font-medium ${location.pathname === link.path ? 'text-santa-red' : 'text-gray-300 hover:text-white'
+                                    }`}
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </div>
+                )}
 
                 {/* Desktop CTA */}
                 <div className="hidden md:flex items-center gap-3">
@@ -123,23 +124,24 @@ const Navbar = () => {
 
 
                             <div className="px-6 py-6 flex flex-col gap-6">
-                                {/* Small, Balanced Links */}
-                                <div className="flex flex-col gap-1">
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2 px-2">Navigation</p>
-                                    {navLinks.map((link) => (
-                                        <Link
-                                            key={link.path}
-                                            to={link.path}
-                                            className={`text-sm font-semibold py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-between ${location.pathname === link.path
-                                                ? 'text-santa-red bg-santa-red/5 font-semibold'
-                                                : 'text-gray-300 active:bg-white/5'
-                                                }`}
-                                        >
-                                            {link.name}
-                                            {location.pathname === link.path && <FaSnowflake className="text-[10px]" />}
-                                        </Link>
-                                    ))}
-                                </div>
+                                {!isAuthenticated && (
+                                    <div className="flex flex-col gap-1">
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2 px-2">Navigation</p>
+                                        {navLinks.map((link) => (
+                                            <Link
+                                                key={link.path}
+                                                to={link.path}
+                                                className={`text-sm font-semibold py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-between ${location.pathname === link.path
+                                                    ? 'text-santa-red bg-santa-red/5 font-semibold'
+                                                    : 'text-gray-300 active:bg-white/5'
+                                                    }`}
+                                            >
+                                                {link.name}
+                                                {location.pathname === link.path && <FaSnowflake className="text-[10px]" />}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
 
                                 {/* Compact Buttons */}
                                 <div className="grid gap-3 pt-4 border-t border-white/5">

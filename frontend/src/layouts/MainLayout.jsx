@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Sidebar from '../components/sidebar/Sidebar';
+import MobileBottomNav from '../components/navigation/MobileBottomNav';
 import { motion } from 'framer-motion';
 
 const MainLayout = ({ menuItems }) => {
@@ -12,39 +13,41 @@ const MainLayout = ({ menuItems }) => {
 
     return (
         <div className="min-h-screen bg-santa-navy-dark text-white flex flex-col">
-            {/* Header / Navbar */}
             <Navbar />
 
-            {/* Main Wrapper */}
-            <div className="flex flex-1 pt-16 relative"> {/* pt-16 to account for fixed navbar height */}
-
-                {/* Sidebar */}
+            <div className="flex flex-1 pt-16 relative">
                 <Sidebar
                     menuItems={menuItems}
                     isOpen={isSidebarOpen}
                     toggleSidebar={toggleSidebar}
                 />
 
-                {/* Content Area */}
                 <motion.main
                     initial={false}
                     animate={{
                         marginLeft: isSidebarOpen ? '260px' : '80px',
-                        width: isSidebarOpen ? 'calc(100% - 260px)' : 'calc(100% - 80px)'
                     }}
-                    className="flex-1 flex flex-col min-h-[calc(100vh-64px)] transition-all duration-300 overflow-hidden"
+                    className="hidden md:flex flex-1 flex-col min-h-[calc(100vh-64px)] transition-all duration-300 overflow-hidden"
+                    style={{ width: isSidebarOpen ? 'calc(100% - 260px)' : 'calc(100% - 80px)' }}
                 >
-                    {/* Page Content */}
                     <div className="flex-1 p-6 md:p-10 relative">
                         <Outlet />
                     </div>
-
-                    {/* Footer - at bottom of content */}
                     <Footer />
                 </motion.main>
+
+                <main className="flex md:hidden flex-1 flex-col min-h-[calc(100vh-64px)] w-full pb-20 overflow-x-hidden">
+                    <div className="flex-1 p-4 relative">
+                        <Outlet />
+                    </div>
+                    <Footer />
+                </main>
             </div>
+
+            <MobileBottomNav menuItems={menuItems} />
         </div>
     );
 };
 
 export default MainLayout;
+

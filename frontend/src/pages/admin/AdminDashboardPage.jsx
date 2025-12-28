@@ -11,7 +11,7 @@ const AdminDashboardPage = () => {
                     <motion.h1
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="text-4xl font-bold bg-gradient-to-r from-red-400 to-white bg-clip-text text-transparent"
+                        className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-red-400 to-white bg-clip-text text-transparent"
                     >
                         Santha's Hub
                     </motion.h1>
@@ -20,7 +20,7 @@ const AdminDashboardPage = () => {
             </header>
 
             {/* Admin Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {[
                     { label: 'Active Spirits', value: '1,248', icon: FaUsers, color: 'text-blue-400' },
                     { label: 'Wishes Pending', value: '84', icon: FaMagic, color: 'text-yellow-400' },

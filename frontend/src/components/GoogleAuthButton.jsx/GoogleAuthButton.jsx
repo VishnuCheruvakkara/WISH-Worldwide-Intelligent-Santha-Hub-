@@ -62,7 +62,7 @@ export default function GoogleAuthButton() {
             <button
                 onClick={() => login()}
                 disabled={loading}
-                className="w-full relative group overflow-hidden rounded-xl cursor-pointer"
+                className="w-full relative group overflow-hidden rounded-xl cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             >
                 {/* Base Glow - Brighter */}
                 <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

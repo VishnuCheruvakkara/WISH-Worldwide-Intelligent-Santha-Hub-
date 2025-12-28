@@ -1,12 +1,14 @@
 import React from 'react';
 import { FaLinkedin, FaYoutube, FaInstagram, FaGithub, FaSnowflake } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Footer = () => {
+    const { isAuthenticated } = useSelector((state) => state.userAuth);
+
     return (
         <footer className="relative bg-santa-navy-dark text-white pt-12 md:pt-20 pb-10 border-t border-white/10 overflow-hidden">
 
-            {/* Background Glow */}
             <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute bottom-[-10%] left-[20%] w-96 h-96 bg-santa-navy rounded-full blur-[120px] opacity-40"></div>
                 <div className="absolute bottom-[-10%] right-[20%] w-96 h-96 bg-santa-red-dark rounded-full blur-[120px] opacity-20"></div>
@@ -15,7 +17,6 @@ const Footer = () => {
             <div className="container mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
 
-                    {/* Brand Column */}
                     <div className="space-y-4">
                         <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-white hover:text-santa-red transition-colors">
                             <FaSnowflake className="text-santa-red animate-spin-slow" />
@@ -32,17 +33,18 @@ const Footer = () => {
                         </p>
                     </div>
 
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="font-bold text-lg mb-6">Explore</h4>
-                        <ul className="space-y-3 text-gray-400">
-                            <li><Link to="/" className="hover:text-[#FF3838] transition-colors">Home</Link></li>
-                            <li><Link to="/about" className="hover:text-[#FF3838] transition-colors">About</Link></li>
-                            <li><Link to="/story" className="hover:text-[#FF3838] transition-colors">Story</Link></li>
-                            <li><Link to="/wishes" className="hover:text-[#FF3838] transition-colors">Wishlist</Link></li>
-                            <li><Link to="/login" className="hover:text-[#FF3838] transition-colors">Login / Sign Up</Link></li>
-                        </ul>
-                    </div>
+                    {!isAuthenticated && (
+                        <div>
+                            <h4 className="font-bold text-lg mb-6">Explore</h4>
+                            <ul className="space-y-3 text-gray-400">
+                                <li><Link to="/" className="hover:text-[#FF3838] transition-colors">Home</Link></li>
+                                <li><Link to="/about" className="hover:text-[#FF3838] transition-colors">About</Link></li>
+                                <li><Link to="/story" className="hover:text-[#FF3838] transition-colors">Story</Link></li>
+                                <li><Link to="/wishes" className="hover:text-[#FF3838] transition-colors">Wishlist</Link></li>
+                                <li><Link to="/login" className="hover:text-[#FF3838] transition-colors">Login / Sign Up</Link></li>
+                            </ul>
+                        </div>
+                    )}
 
                     {/* Legal */}
                     <div>

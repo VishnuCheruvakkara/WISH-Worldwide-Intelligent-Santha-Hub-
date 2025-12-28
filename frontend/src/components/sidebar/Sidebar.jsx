@@ -24,7 +24,7 @@ const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
             {/* Toggle Button */}
             <button
                 onClick={toggleSidebar}
-                className="absolute -right-3 top-24 w-6 h-6 bg-santa-red rounded-full flex items-center justify-center text-white border border-white/20 shadow-lg hover:scale-110 transition-transform active:scale-95"
+                className="absolute -right-3 top-[67px] w-6 h-6 bg-santa-red rounded-full flex items-center justify-center text-white border border-white/20 shadow-lg hover:scale-110 transition-transform active:scale-95 cursor-pointer"
             >
                 {isOpen ? <FaChevronLeft size={10} /> : <FaChevronRight size={10} />}
             </button>
@@ -42,7 +42,7 @@ const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
                             exit={{ opacity: 0, x: -10 }}
                             className="ml-4 font-bold text-lg tracking-wider text-white whitespace-nowrap"
                         >
-                            W.I.S.H. Hub
+                            W.I.S.Hub
                         </motion.span>
                     )}
                 </AnimatePresence>
