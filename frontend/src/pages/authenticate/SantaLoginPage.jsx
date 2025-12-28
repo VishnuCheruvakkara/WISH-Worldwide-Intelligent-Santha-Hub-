@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaHatCowboy, FaStar, FaScroll, FaMagic } from 'react-icons/fa';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import { Formik, Form } from 'formik';
+import { FaStar, FaScroll, FaMagic } from 'react-icons/fa';
+import Button from '../../components/ui/button/Button';
+import Input from '../../components/ui/input/Input';
 import Navbar from '../../components/navbar/Navbar';
 import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
 
 const SantaLoginPage = () => {
     const navigate = useNavigate();
-    const [secretCode, setSecretCode] = useState('');
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+    const initialValues = {
+        spiritName: '',
+        secretCode: '',
+    };
+
+    const handleLogin = (values, { setSubmitting }) => {
         // In a real app, this would validate against a backend
-        if (secretCode === 'hohoho' || secretCode === 'admin') {
+        if (values.secretCode === 'hohoho' || values.secretCode === 'admin') {
             alert("Welcome Santa! The sleigh is ready.");
             // navigate('/santa-dashboard'); 
         } else {
             alert("This code selection feels... lacking in spirit. Try again!");
         }
+        setSubmitting(false);
     };
 
     return (
@@ -46,26 +51,37 @@ const SantaLoginPage = () => {
                             <p className="text-gray-300 text-sm">Enter the Magic Code</p>
                         </div>
 
-                        <form onSubmit={handleLogin} className="space-y-6 relative z-10">
-                            <Input
-                                label="Name of Spirit"
-                                placeholder="St. Nicholas"
-                                type="text"
-                                icon={FaStar}
-                            />
-                            <Input
-                                label="Secret Scroll Code"
-                                placeholder="••••••••"
-                                type="password"
-                                icon={FaScroll}
-                                value={secretCode}
-                                onChange={(e) => setSecretCode(e.target.value)}
-                            />
+                        <Formik
+                            initialValues={initialValues}
+                            onSubmit={handleLogin}
+                        >
+                            {({ isSubmitting }) => (
+                                <Form className="space-y-6 relative z-10">
+                                    <Input
+                                        label="Name of Spirit"
+                                        placeholder="St. Nicholas"
+                                        type="text"
+                                        icon={FaStar}
+                                        name="spiritName"
+                                    />
+                                    <Input
+                                        label="Secret Scroll Code"
+                                        placeholder="••••••••"
+                                        type="password"
+                                        icon={FaScroll}
+                                        name="secretCode"
+                                    />
 
-                            <Button className="w-full shadow-lg shadow-yellow-500/20 border border-white/20 bg-gradient-to-r from-santa-red to-red-600 hover:from-red-600 hover:to-santa-red">
-                                Unlock the Magic
-                            </Button>
-                        </form>
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full shadow-lg shadow-yellow-500/20 border border-white/20 bg-gradient-to-r from-santa-red to-red-600 hover:from-red-600 hover:to-santa-red"
+                                    >
+                                        {isSubmitting ? 'Unlocking...' : 'Unlock the Magic'}
+                                    </Button>
+                                </Form>
+                            )}
+                        </Formik>
 
                         <div className="mt-8 text-center">
                             <span className="text-xs text-yellow-200/60 uppercase tracking-widest font-serif">Only for the pure of heart</span>

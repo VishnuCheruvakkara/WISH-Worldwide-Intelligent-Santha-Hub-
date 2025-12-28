@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaSnowflake, FaGift, FaStar, FaGlobe, FaLightbulb, FaHeart, FaNetworkWired } from 'react-icons/fa';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/button/Button';
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/footer/Footer';
 import ChristmasScene from '../../components/christmas-animation/ChristmasScene';

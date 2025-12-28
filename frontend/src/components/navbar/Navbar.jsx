@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaSnowflake } from 'react-icons/fa';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { FaSnowflake, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import Button from '../ui/Button';
+import Button from '../ui/button/Button';
 import HamburgerMenu from './HamburgerMenu';
+import { logoutSuccess } from '../../redux/Slice/userAuthSlice';
+import AuthenticateAxios from '../../axios/AuthenticateAxios';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isAuthenticated, user } = useSelector((state) => state.userAuth);
 
     useEffect(() => {
         setIsOpen(false);
     }, [location]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
+
+    const handleLogout = async () => {
+        try {
+            await AuthenticateAxios.post('/users/logout/');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        } finally {
+            dispatch(logoutSuccess());
+            navigate('/login');
+        }
+    };
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -47,12 +64,31 @@ const Navbar = () => {
 
                 {/* Desktop CTA */}
                 <div className="hidden md:flex items-center gap-3">
-                    <Link to="/login">
-                        <Button variant="secondary" className="py-[10px] px-4 text-sm font-semibold">Login</Button>
-                    </Link>
-                    <Link to="/signup">
-                        <Button variant="primary" className="py-[10px] px-4 text-sm font-semibold">Join Santa's List</Button>
-                    </Link>
+                    {isAuthenticated ? (
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 text-sm font-medium text-white/80">
+                                <FaUser className="text-santa-red" />
+                                <span>{user?.username}</span>
+                            </div>
+                            <Button
+                                variant="secondary"
+                                className="py-[10px] px-4 text-sm font-semibold flex items-center gap-2"
+                                onClick={handleLogout}
+                            >
+                                <FaSignOutAlt />
+                                Logout
+                            </Button>
+                        </div>
+                    ) : (
+                        <>
+                            <Link to="/login">
+                                <Button variant="secondary" className="py-[10px] px-4 text-sm font-semibold">Login</Button>
+                            </Link>
+                            <Link to="/signup">
+                                <Button variant="primary" className="py-[10px] px-4 text-sm font-semibold">Join Santa's List</Button>
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Toggle */}
@@ -106,17 +142,38 @@ const Navbar = () => {
                                 </div>
 
                                 {/* Compact Buttons */}
-                                <div className="grid  gap-3 pt-4 border-t border-white/5">
-                                    <Link to="/login">
-                                        <Button variant="secondary" className="w-full justify-center !py-2.5 !text-sm border-white/10 bg-white/5">
-                                            Login
-                                        </Button>
-                                    </Link>
-                                    <Link to="/signup">
-                                        <Button variant="primary" className="w-full justify-center !py-2.5 !text-sm">
-                                            Join Santa's List
-                                        </Button>
-                                    </Link>
+                                <div className="grid gap-3 pt-4 border-t border-white/5">
+                                    {isAuthenticated ? (
+                                        <>
+                                            <div className="flex items-center justify-between px-2 py-1">
+                                                <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                                                    <FaUser className="text-santa-red" />
+                                                    <span>{user?.username}</span>
+                                                </div>
+                                                <span className="text-[10px] italic text-gray-400">Pure of Heart</span>
+                                            </div>
+                                            <Button
+                                                variant="secondary"
+                                                className="w-full justify-center !py-2.5 !text-sm border-white/10 bg-white/5"
+                                                onClick={handleLogout}
+                                            >
+                                                Logout
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link to="/login">
+                                                <Button variant="secondary" className="w-full justify-center !py-2.5 !text-sm border-white/10 bg-white/5">
+                                                    Login
+                                                </Button>
+                                            </Link>
+                                            <Link to="/signup">
+                                                <Button variant="primary" className="w-full justify-center !py-2.5 !text-sm">
+                                                    Join Santa's List
+                                                </Button>
+                                            </Link>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

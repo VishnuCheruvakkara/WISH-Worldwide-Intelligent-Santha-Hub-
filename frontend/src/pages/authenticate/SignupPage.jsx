@@ -1,12 +1,51 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Formik, Form } from 'formik';
 import { FaUser, FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
-import Button from '../../components/ui/Button';
-import Input from '../../components/ui/Input';
+import Button from '../../components/ui/button/Button';
+import Input from '../../components/ui/input/Input';
 import Navbar from '../../components/navbar/Navbar';
 import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
+import SignupSchema from '../../validations/SignupSchema';
+import PublisAxios from '../../axios/PublisAxios';
+import { loginSuccess } from '../../redux/Slice/userAuthSlice';
 
 const SignupPage = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [error, setError] = useState('');
+
+    const initialValues = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    };
+
+    const handleSubmit = async (values, { setSubmitting }) => {
+        try {
+            const response = await PublisAxios.post('/users/sign-up/', {
+                username: values.username,
+                email: values.email,
+                password: values.password,
+            });
+
+            const { access, id, username, email, is_admin } = response.data.data;
+
+            dispatch(loginSuccess({
+                access,
+                user: { id, username, email, is_admin }
+            }));
+
+            navigate('/');
+        } catch (err) {
+            setError(err.response?.data?.message || 'Validation failed. Please check your details.');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-x-hidden">
             <Navbar />
@@ -27,43 +66,76 @@ const SignupPage = () => {
                             <p className="text-gray-400 text-sm">Create an account to start wishing</p>
                         </div>
 
-                        <form className="space-y-5">
-                            <Input
-                                label="Full Name"
-                                placeholder="Elf Buddy"
-                                type="text"
-                                icon={FaUser}
-                            />
-                            <Input
-                                label="Email Address"
-                                placeholder="buddy@northpole.com"
-                                type="email"
-                                icon={FaEnvelope}
-                            />
-                            <Input
-                                label="Password"
-                                placeholder="Create a strong password"
-                                type="password"
-                                icon={FaLock}
-                            />
-
-                            <div className="text-xs text-gray-400">
-                                By signing up, you agree to our <a href="#" className="text-[#FF3838]">Terms of Service</a> and <a href="#" className="text-[#FF3838]">Privacy Policy</a>. Nothing naughty!
+                        {error && (
+                            <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-sm italic text-center">
+                                {error}
                             </div>
+                        )}
 
-                            <Button className="w-full shadow-lg shadow-santa-red/20">Create Account</Button>
+                        <Formik
+                            initialValues={initialValues}
+                            validationSchema={SignupSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {({ isSubmitting }) => (
+                                <Form className="space-y-5">
+                                    <Input
+                                        label="Full Name"
+                                        placeholder="Elf Buddy"
+                                        type="text"
+                                        icon={FaUser}
+                                        name="username"
+                                    />
 
-                            <div className="relative flex items-center py-2">
-                                <div className="flex-grow border-t border-white/10"></div>
-                                <span className="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">Or join with</span>
-                                <div className="flex-grow border-t border-white/10"></div>
-                            </div>
+                                    <Input
+                                        label="Email Address"
+                                        placeholder="buddy@northpole.com"
+                                        type="email"
+                                        icon={FaEnvelope}
+                                        name="email"
+                                    />
 
-                            <button type="button" className="w-full py-3 px-4 bg-white text-gray-900 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-gray-100 transition-colors">
-                                <FaGoogle className="text-red-500" />
-                                Sign up with Google
-                            </button>
-                        </form>
+                                    <Input
+                                        label="Password"
+                                        placeholder="Create a strong password"
+                                        type="password"
+                                        icon={FaLock}
+                                        name="password"
+                                    />
+
+                                    <Input
+                                        label="Confirm Password"
+                                        placeholder="Confirm your password"
+                                        type="password"
+                                        icon={FaLock}
+                                        name="confirmPassword"
+                                    />
+
+                                    <div className="text-xs text-gray-400 leading-tight">
+                                        By signing up, you agree to our <a href="#" className="text-[#FF3838]">Terms of Service</a> and <a href="#" className="text-[#FF3838]">Privacy Policy</a>. Nothing naughty!
+                                    </div>
+
+                                    <Button
+                                        type="submit"
+                                        className="w-full shadow-lg shadow-santa-red/20"
+                                        disabled={isSubmitting}
+                                    >
+                                        {isSubmitting ? 'Creating Magic...' : 'Create Account'}
+                                    </Button>
+
+                                    <div className="relative flex items-center py-2">
+                                        <div className="flex-grow border-t border-white/10"></div>
+                                        <span className="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">Or join with</span>
+                                        <div className="flex-grow border-t border-white/10"></div>
+                                    </div>
+
+                                    <button type="button" className="w-full py-3 px-4 bg-white text-gray-900 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-gray-100 transition-colors">
+                                        <FaGoogle className="text-red-500" />
+                                        Sign up with Google
+                                    </button>
+                                </Form>
+                            )}
+                        </Formik>
 
                         <p className="mt-8 text-center text-sm text-gray-400">
                             Already have an account?

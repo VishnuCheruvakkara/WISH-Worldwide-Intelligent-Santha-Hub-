@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaCompass, FaHome, FaSnowflake } from 'react-icons/fa';
 import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/button/Button';
 
 const NotFoundPage = () => {
     return (
