@@ -66,3 +66,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background:  #DC0000 !important; /* slightly darker hover */
 }
+
+/* Custom input fill behavior */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #122855 inset !important;
+    -webkit-text-fill-color: #ffffff !important; /* your text color */
+    transition: background-color 5000s ease-in-out 0s;
+}

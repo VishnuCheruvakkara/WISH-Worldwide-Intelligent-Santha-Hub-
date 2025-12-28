@@ -10,11 +10,11 @@ import ChristmasScene from '../../components/christmas-animation/ChristmasScene'
 import LoginSchema from '../../validations/LoginSchema';
 import PublisAxios from '../../axios/PublisAxios';
 import { loginSuccess } from '../../redux/Slice/userAuthSlice';
+import { showToast } from '../../components/ui/toast/ChrisToast';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [error, setError] = useState('');
 
     const initialValues = {
         email: '',
@@ -31,9 +31,10 @@ const LoginPage = () => {
                 user: { id, username, email, is_admin }
             }));
 
+            showToast.success(`Welcome back, ${username}!`);
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+            showToast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
         } finally {
             setSubmitting(false);
         }
@@ -58,12 +59,6 @@ const LoginPage = () => {
                             <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
                             <p className="text-gray-400 text-sm">Log in to continue your wish journey</p>
                         </div>
-
-                        {error && (
-                            <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-sm italic text-center">
-                                {error}
-                            </div>
-                        )}
 
                         <Formik
                             initialValues={initialValues}
@@ -122,10 +117,10 @@ const LoginPage = () => {
                             Don't have an account?
                             <Link to="/signup" className="text-[#FF3838] hover:text-[#DC0000] font-bold ml-1">Sign up</Link>
                         </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </div >
+                </div >
+            </div >
+        </div >
     );
 };
 

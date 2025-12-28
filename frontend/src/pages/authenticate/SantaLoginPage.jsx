@@ -7,6 +7,8 @@ import Input from '../../components/ui/input/Input';
 import Navbar from '../../components/navbar/Navbar';
 import ChristmasScene from '../../components/christmas-animation/ChristmasScene';
 
+import { showToast } from '../../components/ui/toast/ChrisToast';
+
 const SantaLoginPage = () => {
     const navigate = useNavigate();
 
@@ -16,12 +18,10 @@ const SantaLoginPage = () => {
     };
 
     const handleLogin = (values, { setSubmitting }) => {
-        // In a real app, this would validate against a backend
         if (values.secretCode === 'hohoho' || values.secretCode === 'admin') {
-            alert("Welcome Santa! The sleigh is ready.");
-            // navigate('/santa-dashboard'); 
+            showToast.success("Welcome Santa! The sleigh is ready and the reindeer are fed. 🦌");
         } else {
-            alert("This code selection feels... lacking in spirit. Try again!");
+            showToast.error("This code selection feels... lacking in spirit. Try again!");
         }
         setSubmitting(false);
     };
