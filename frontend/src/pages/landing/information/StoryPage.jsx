@@ -12,6 +12,8 @@ const StoryPage = () => {
             {/* Christmas Scene Background - Fixed */}
             <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
                 <ChristmasScene className="h-full" />
+                {/* Dark overlay for readability */}
+                <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
             </div>
 
             <div className="relative z-10 pt-32 pb-20 container mx-auto px-6">

@@ -6,6 +6,7 @@ import SignupPage from '../pages/authenticate/SignupPage';
 import SantaLoginPage from '../pages/authenticate/SantaLoginPage';
 import AboutPage from '../pages/landing/information/AboutPage';
 import StoryPage from '../pages/landing/information/StoryPage';
+import NotFoundPage from '../pages/error/NotFoundPage';
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: '/santa-login',
         element: <SantaLoginPage />,
+    },
+    {
+        path: '*',
+        element: <NotFoundPage />,
     },
 ]);
 
