@@ -9,12 +9,16 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import sys
 import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Set up apps path
+APPS_DIR = BASE_DIR / "apps"
+sys.path.append(str(APPS_DIR))
 
 # Initialize environ
 env = environ.Env(
@@ -36,10 +40,10 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all only in debug mode
-if not DEBUG:
-     CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[])
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS')
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")
 
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -51,10 +55,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Third-party apps
+    "rest_framework_simplejwt.token_blacklist",
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    # Custom apps
+    "users",
 ]
+
+AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -132,17 +141,44 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Django Rest Framework
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,  # default page size
 }
 
 from datetime import timedelta
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    # JWT cookie settings
+    "AUTH_COOKIE": "refresh_token",  # name of the cookie
+    "AUTH_COOKIE_HTTP_ONLY": True,  # JS cannot access
+    "AUTH_COOKIE_SECURE": True,  # only over HTTPS
+    "AUTH_COOKIE_SAMESITE": "None",  # cross-site requests
+}
+
+
+# Logger setup
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    # root logger, Apply to all files in project
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
 }
