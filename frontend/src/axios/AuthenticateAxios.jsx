@@ -2,6 +2,7 @@ import axios from "axios";
 import { store } from "../redux/store";
 import { loginSuccess, logoutSuccess } from "../redux/Slice/userAuthSlice";
 import { getCookie } from "../utils/getCookie";
+import { navigate } from "../services/navigation/NavigationRegistrar";
 
 // For authenticated requests
 const AuthenticateAxios = axios.create({
@@ -58,7 +59,7 @@ AuthenticateAxios.interceptors.response.use(
                 return AuthenticateAxios(originalRequest);
             } catch (refreshError) {
                 store.dispatch(logoutSuccess());
-                window.location.href = "/login";
+                navigate("/login");
                 return Promise.reject(refreshError);
             }
         }

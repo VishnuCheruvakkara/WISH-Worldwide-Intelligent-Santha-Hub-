@@ -12,6 +12,8 @@ import PublisAxios from '../../axios/PublisAxios';
 import { loginSuccess } from '../../redux/Slice/userAuthSlice';
 import { showToast } from '../../components/ui/toast/ChrisToast';
 
+import GoogleAuthButton from '../../components/GoogleAuthButton.jsx/GoogleAuthButton';
+
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,9 +57,19 @@ const LoginPage = () => {
                         {/* Decor */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF3838] rounded-full blur-[60px] opacity-20"></div>
 
-                        <div className="text-center mb-8">
+                        <div className="text-center mb-6">
                             <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
                             <p className="text-gray-400 text-sm">Log in to continue your wish journey</p>
+                        </div>
+
+                        <div className="mb-6 space-y-4">
+                            <GoogleAuthButton />
+
+                            <div className="relative flex items-center py-2">
+                                <div className="flex-grow border-t border-white/10"></div>
+                                <span className="flex-shrink-0 mx-4 text-gray-500 text-[10px] uppercase tracking-widest font-bold">Or use email</span>
+                                <div className="flex-grow border-t border-white/10"></div>
+                            </div>
                         </div>
 
                         <Formik
@@ -66,7 +78,7 @@ const LoginPage = () => {
                             onSubmit={handleSubmit}
                         >
                             {({ isSubmitting }) => (
-                                <Form className="space-y-6">
+                                <Form className="space-y-5">
                                     <Input
                                         label="Email Address"
                                         placeholder="santa@northpole.com"
@@ -98,17 +110,6 @@ const LoginPage = () => {
                                     >
                                         {isSubmitting ? 'Signing in...' : 'Sign In'}
                                     </Button>
-
-                                    <div className="relative flex items-center py-2">
-                                        <div className="flex-grow border-t border-white/10"></div>
-                                        <span className="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">Or continue with</span>
-                                        <div className="flex-grow border-t border-white/10"></div>
-                                    </div>
-
-                                    <button type="button" className="w-full py-3 px-4 bg-white text-gray-900 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-gray-100 transition-colors">
-                                        <FaGoogle className="text-red-500" />
-                                        Sign in with Google
-                                    </button>
                                 </Form>
                             )}
                         </Formik>
