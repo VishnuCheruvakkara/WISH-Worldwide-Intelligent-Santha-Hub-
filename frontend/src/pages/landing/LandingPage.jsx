@@ -27,7 +27,7 @@ const LandingPage = () => {
     };
 
     return (
-        <div className="min-h-screen text-white relative font-sans">
+        <div className="min-h-screen text-white relative font-sans overflow-x-hidden">
             <Navbar />
 
             {/* CHRISTMAS SCENE COMPONENT */}
@@ -40,7 +40,7 @@ const LandingPage = () => {
             <div className="relative z-20">
                 {/* WISH ACRONYM SECTION */}
                 <section
-                    className="py-24 bg-santa-navy-dark relative shadow-[0_-50px_100px_rgba(0,0,0,0.5)]"
+                    className="py-12 md:py-24 bg-santa-navy-dark relative shadow-[0_-50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
                 >
 
                     {/* Top Gradient for blending with Christmas Scene */}
@@ -93,7 +93,7 @@ const LandingPage = () => {
 
                 <main className="relative z-10 bg-santa-navy-dark">
                     {/* HERO SECTION */}
-                    <section className="min-h-screen flex items-center justify-center pt-32 pb-20 px-6 container mx-auto">
+                    <section className="min-h-screen flex items-center justify-center pt-20 md:pt-32 pb-12 md:pb-20 px-6 container mx-auto overflow-hidden">
                         <div className="flex flex-col lg:flex-row items-center gap-16">
 
                             {/* Text Content */}
@@ -103,7 +103,7 @@ const LandingPage = () => {
                                 animate="visible"
                                 variants={staggerContainer}
                             >
-                                <motion.h1 variants={fadeIn} className="text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                                <motion.h1 variants={fadeIn} className="text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight tracking-tight">
                                     Believe in <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">The Magic</span> of <br />
                                     <span className="text-santa-red">AI Santha</span>

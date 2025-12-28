@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer className="relative bg-santa-navy-dark text-white pt-20 pb-10 border-t border-white/10 overflow-hidden">
+        <footer className="relative bg-santa-navy-dark text-white pt-12 md:pt-20 pb-10 border-t border-white/10 overflow-hidden">
 
             {/* Background Glow */}
             <div className="absolute bottom-0 left-0 w-full h-full overflow-hidden pointer-events-none">

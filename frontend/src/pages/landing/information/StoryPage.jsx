@@ -6,7 +6,7 @@ import { FaSnowflake, FaMagic } from 'react-icons/fa';
 
 const StoryPage = () => {
     return (
-        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-x-hidden">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
@@ -16,7 +16,7 @@ const StoryPage = () => {
                 <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
             </div>
 
-            <div className="relative z-10 pt-32 pb-20 container mx-auto px-6">
+            <div className="relative z-10 pt-24 md:pt-32 pb-12 md:pb-20 container mx-auto px-6">
 
                 {/* Header Section */}
                 <div className="text-center mb-16 max-w-4xl mx-auto">
@@ -41,8 +41,8 @@ const StoryPage = () => {
                     <div className="space-y-16">
 
                         {/* Item 1: St Nicholas */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
-                            <div className="md:w-5/12 order-2 md:order-1 text-right">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
+                            <div className="md:w-5/12 order-2 md:order-1 text-center md:text-right">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">280 A.D.</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">The Saint of Myra</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">
@@ -58,14 +58,14 @@ const StoryPage = () => {
                         </div>
 
                         {/* Item 2: Sinterklaas (NEW) */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
                                     <img src="/images/story/the_voyage_to_holy_land.png" alt="Voyage to Holland" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
-                            <div className="md:w-5/12 order-2 md:order-2 text-left">
+                            <div className="md:w-5/12 order-2 md:order-2 text-center md:text-left">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">16th Century</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">The Voyage to Holland</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">
@@ -75,8 +75,8 @@ const StoryPage = () => {
                         </div>
 
                         {/* Item 3: The Sleigh */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
-                            <div className="md:w-5/12 order-2 md:order-1 text-right">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
+                            <div className="md:w-5/12 order-2 md:order-1 text-center md:text-right">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">1823</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">The Night Before Christmas</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">
@@ -92,14 +92,14 @@ const StoryPage = () => {
                         </div>
 
                         {/* Item 4: Thomas Nast (NEW) */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
                                     <img src="/images/story/red_suit_north_pole.png" alt="Thomas Nast Santa" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
                                 </div>
                             </div>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-santa-navy border-4 border-santa-red rounded-full z-10 hidden md:block"></div>
-                            <div className="md:w-5/12 order-2 md:order-2 text-left">
+                            <div className="md:w-5/12 order-2 md:order-2 text-center md:text-left">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">1863</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">The Red Suit & North Pole</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">
@@ -109,8 +109,8 @@ const StoryPage = () => {
                         </div>
 
                         {/* Item 5: Modern Icons (NEW) */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
-                            <div className="md:w-5/12 order-2 md:order-1 text-right">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
+                            <div className="md:w-5/12 order-2 md:order-1 text-center md:text-right">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">1931</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">The Jolly Standard</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">
@@ -126,7 +126,7 @@ const StoryPage = () => {
                         </div>
 
                         {/* Item 6: W.I.S.H. */}
-                        <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 relative">
                             <div className="md:w-5/12 order-1 md:order-1">
                                 <div className="bg-transparent border border-santa-red/30 p-2 rounded-2xl -rotate-3 hover:rotate-0 transition-transform duration-300">
                                     <img src="/images/story/wish_future.png" alt="W.I.S.H. Future" className="w-full h-48 object-cover rounded-xl shadow-lg shadow-santa-red/10" />
@@ -135,7 +135,7 @@ const StoryPage = () => {
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-santa-red text-white rounded-full z-10 hidden md:flex items-center justify-center border-4 border-santa-navy">
                                 <FaMagic />
                             </div>
-                            <div className="md:w-5/12 order-2 md:order-2 text-left">
+                            <div className="md:w-5/12 order-2 md:order-2 text-center md:text-left">
                                 <h3 className="text-2xl font-bold text-santa-red mb-2">The Future</h3>
                                 <h4 className="text-xl font-semibold mb-2 text-white">W.I.S.H. Initiative</h4>
                                 <p className="text-gray-100 text-sm leading-relaxed">

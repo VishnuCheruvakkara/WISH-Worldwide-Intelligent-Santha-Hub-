@@ -64,7 +64,7 @@ const ChristmasSleighSVG = ({ className }) => {
             </svg>
 
             {/* Center - Large Moon - Moved Up */}
-            <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[550px] h-[350px] md:h-[550px] z-10 flex items-center justify-center">
+            <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[350px] md:w-[550px] h-[280px] sm:h-[350px] md:h-[550px] z-10 flex items-center justify-center">
                 <img
                     src="/images/backgrounds/moon.png"
                     alt="Full Moon"
@@ -72,10 +72,9 @@ const ChristmasSleighSVG = ({ className }) => {
                 />
             </div>
 
-            {/* Santa Over Overlaying Moon - Parallax Animated (Traveling Right) */}
             <motion.div
                 style={{ x: smoothX, y: smoothY }}
-                className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[400px] pointer-events-none"
+                className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[240px] sm:w-[320px] md:w-[400px] pointer-events-none"
             >
                 <img
                     src="/images/characters/santa.png"

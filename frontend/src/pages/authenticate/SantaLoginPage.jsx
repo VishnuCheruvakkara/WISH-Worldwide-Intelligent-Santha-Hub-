@@ -22,7 +22,7 @@ const SantaLoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-x-hidden">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
@@ -30,9 +30,9 @@ const SantaLoginPage = () => {
                 <ChristmasScene className="h-full" />
             </div>
 
-            <div className="min-h-screen flex flex-col justify-center items-center py-20 relative z-10 pt-24">
-                <div className="w-full max-w-md p-8">
-                    <div className="bg-santa-navy/80 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+            <div className="min-h-screen flex flex-col justify-center items-center py-12 md:py-20 relative z-10 pt-24 px-2 sm:px-4">
+                <div className="w-full max-w-md p-0 sm:p-2">
+                    <div className="bg-santa-navy/80 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
 
                         {/* Decor - Divine Gold Glow */}
                         <div className="absolute -top-10 -left-10 w-40 h-40 bg-yellow-400 rounded-full blur-[80px] opacity-20 animate-pulse"></div>

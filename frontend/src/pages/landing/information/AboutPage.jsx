@@ -6,7 +6,7 @@ import { FaSnowflake, FaGift, FaHeart, FaMagic } from 'react-icons/fa';
 
 const AboutPage = () => {
     return (
-        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-x-hidden">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
@@ -15,7 +15,7 @@ const AboutPage = () => {
                 <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
             </div>
 
-            <div className="relative z-10 pt-32 pb-20 container mx-auto px-6">
+            <div className="relative z-10 pt-24 md:pt-32 pb-12 md:pb-20 container mx-auto px-6">
 
                 {/* Header Section */}
                 <div className="text-center mb-16 max-w-4xl mx-auto">

@@ -5,7 +5,7 @@ const HamburgerMenu = ({ isOpen, toggleMenu }) => {
     return (
         <button
             onClick={toggleMenu}
-            className="md:hidden relative z-[70] w-8 h-8 flex flex-col justify-center items-center focus:outline-none"
+            className="md:hidden relative z-[70] w-8 h-8 flex flex-col justify-center items-center focus:outline-none cursor-pointer"
             aria-label="Toggle Menu"
         >
             <div className="relative w-6 h-5">

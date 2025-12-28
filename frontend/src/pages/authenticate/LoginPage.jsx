@@ -8,7 +8,7 @@ import ChristmasScene from '../../components/christmas-animation/ChristmasScene'
 
 const LoginPage = () => {
     return (
-        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-y-auto">
+        <div className="min-h-screen bg-santa-navy-dark text-white relative overflow-x-hidden">
             <Navbar />
 
             {/* Christmas Scene Background - Fixed */}
@@ -16,9 +16,9 @@ const LoginPage = () => {
                 <ChristmasScene className="h-full" />
             </div>
 
-            <div className="min-h-screen flex flex-col justify-center items-center py-20 relative z-10">
-                <div className="w-full max-w-md p-8">
-                    <div className="bg-[#002455]/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+            <div className="min-h-screen flex flex-col justify-center items-center py-12 md:py-20 relative z-10 pt-24 px-2 sm:px-4">
+                <div className="w-full max-w-md p-0 sm:p-2">
+                    <div className="bg-[#002455]/80 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
                         {/* Decor */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF3838] rounded-full blur-[60px] opacity-20"></div>
 

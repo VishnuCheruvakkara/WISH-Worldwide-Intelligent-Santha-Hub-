@@ -19,6 +19,18 @@ body {
   overflow-x: hidden;
 }
 
+/* Text Selection Styling */
+::selection {
+  background-color: var(--color-santa-red);
+  color: white;
+}
+
+/* For Firefox */
+::-moz-selection {
+  background-color: var(--color-santa-red);
+  color: white;
+}
+
 /* Floating Animation */
 @keyframes float {
   0% { transform: translateY(0px); }
@@ -32,4 +44,25 @@ body {
 
 .animate-float-delayed {
   animation: float 6s ease-in-out 3s infinite;
+}
+
+
+/* Customize side bar  */
+
+::-webkit-scrollbar {
+  width: 8px; 
+  height:8px;
+}
+
+::-webkit-scrollbar-track {
+  background:  #050E3C !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  #FF3838 !important;
+  border-radius: 0 !important; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:  #DC0000 !important; /* slightly darker hover */
 }

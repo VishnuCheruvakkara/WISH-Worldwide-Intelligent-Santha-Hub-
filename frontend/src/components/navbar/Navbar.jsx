@@ -24,7 +24,7 @@ const Navbar = () => {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50">
             {/* Main Header */}
-            <div className="relative z-[70] px-6 py-4 flex items-center justify-between backdrop-blur-md bg-santa-navy-dark/90 border-b border-white/5">
+            <div className="relative z-[70] px-6 py-3 flex items-center justify-between backdrop-blur-md bg-santa-navy-dark/90 border-b border-white/5">
                 {/* Brand */}
                 <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-white hover:text-santa-red transition-colors">
                     <FaSnowflake className="text-santa-red animate-spin-slow" />
@@ -48,10 +48,10 @@ const Navbar = () => {
                 {/* Desktop CTA */}
                 <div className="hidden md:flex items-center gap-3">
                     <Link to="/login">
-                        <Button variant="secondary" className="!py-1.5 !px-4 text-xs font-semibold">Login</Button>
+                        <Button variant="secondary" className="py-[10px] px-4 text-sm font-semibold">Login</Button>
                     </Link>
                     <Link to="/signup">
-                        <Button variant="primary" className="!py-1.5 !px-4 text-xs font-semibold">Join Santa's List</Button>
+                        <Button variant="primary" className="py-[10px] px-4 text-sm font-semibold">Join Santa's List</Button>
                     </Link>
                 </div>
 
@@ -94,7 +94,7 @@ const Navbar = () => {
                                         <Link
                                             key={link.path}
                                             to={link.path}
-                                            className={`text-lg py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-between ${location.pathname === link.path
+                                            className={`text-sm font-semibold py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-between ${location.pathname === link.path
                                                 ? 'text-santa-red bg-santa-red/5 font-semibold'
                                                 : 'text-gray-300 active:bg-white/5'
                                                 }`}
@@ -106,7 +106,7 @@ const Navbar = () => {
                                 </div>
 
                                 {/* Compact Buttons */}
-                                <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/5">
+                                <div className="grid  gap-3 pt-4 border-t border-white/5">
                                     <Link to="/login">
                                         <Button variant="secondary" className="w-full justify-center !py-2.5 !text-sm border-white/10 bg-white/5">
                                             Login
@@ -114,7 +114,7 @@ const Navbar = () => {
                                     </Link>
                                     <Link to="/signup">
                                         <Button variant="primary" className="w-full justify-center !py-2.5 !text-sm">
-                                            Join List
+                                            Join Santa's List
                                         </Button>
                                     </Link>
                                 </div>

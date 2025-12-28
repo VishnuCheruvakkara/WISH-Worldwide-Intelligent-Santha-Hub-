@@ -7,7 +7,7 @@ import Button from '../../components/ui/Button';
 
 const NotFoundPage = () => {
     return (
-        <div className="min-h-screen bg-santa-navy-dark text-white flex items-center justify-center relative overflow-hidden">
+        <div className="min-h-screen bg-santa-navy-dark text-white flex items-center justify-center relative overflow-x-hidden">
             {/* Background Magic */}
             <div className="absolute inset-0 z-0">
                 <ChristmasScene />
@@ -56,7 +56,7 @@ const NotFoundPage = () => {
 
                     {/* Text Content */}
                     <div className="space-y-4">
-                        <h1 className="text-8xl md:text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">
+                        <h1 className="text-6xl md:text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20">
                             404
                         </h1>
                         <h2 className="text-3xl md:text-4xl font-bold text-white">
