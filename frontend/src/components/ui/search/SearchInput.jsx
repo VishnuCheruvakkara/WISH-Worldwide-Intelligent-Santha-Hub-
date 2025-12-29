@@ -23,7 +23,7 @@ const SearchInput = ({
     };
 
     return (
-        <div className={`relative w-full max-w-md ${className}`}>
+        <div className={`relative w-full ${className}`}>
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/50 z-10">
                 <Icon />
             </div>

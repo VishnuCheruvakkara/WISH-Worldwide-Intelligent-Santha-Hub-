@@ -130,22 +130,43 @@ const SanthaWishesPage = () => {
     return (
         <div className="min-h-screen pt-4 px-3 pb-6 relative overflow-hidden text-white">
 
-            <div className="max-w-5xl mx-auto mb-4">
-                {/* Header with Magic icon */}
-                <div className="flex items-center gap-3 pb-8">
-                    <FaMagic className="text-2xl text-santa-red" />
-                    <div> 
-                        <h1 className="text-xl font-bold text-white">Santha's List</h1>
-                        <p className="text-xs text-white/50">{totalUsers} Children</p>
+            <div className="max-w-5xl mx-auto py-4">
+                {/* Header with Magic icon + Grant All on right (md+) */}
+                <div className="flex items-start justify-between gap-3 mb-8 flex-col md:flex-row md:items-center">
+                    <div className="flex items-center gap-3 ">
+                        <div className="relative">
+                            {/* Fog / Glow */}
+                            <div className="absolute inset-0 rounded-full bg-santa-red opacity-40 blur-xl"></div>
+
+                            {/* Icon */}
+                            <FaMagic className="relative text-2xl text-santa-red drop-shadow-[0_0_10px_rgba(255,0,0,0.8)]" />
+                        </div>
+
+                        <div>
+                            <h1 className="text-xl font-bold text-white">Wishes</h1>
+                            <p className="text-xs text-white/50">
+                                {totalUsers} Children wish found
+                            </p>
+                        </div>
                     </div>
+
+                    {/* Grant All button - Right side on md+, hidden on small */}
+                    <button
+                        onClick={confirmGrantAllGlobal}
+                        className="hidden md:flex px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 cursor-pointer hover:from-amber-400 hover:to-orange-400 text-white rounded-xl font-semibold shadow-lg items-center justify-center gap-2 transition-all active:scale-95 text-sm hover:shadow-xl whitespace-nowrap"
+                        title="Grant ALL pending wishes globally"
+                    >
+                        <FaMagic className="text-base" />
+                        <span>Grant All</span>
+                    </button>
                 </div>
 
                 {/* Perfect Responsive Layout */}
                 <div className="flex flex-col gap-3">
                     {/* Search + Filter row - Perfect alignment for all screen sizes */}
                     <div className="flex flex-col sm:flex-row gap-3">
-                        {/* Search bar - Full width on mobile, 70% on desktop */}
-                        <div className="w-full sm:flex-1 sm:max-w-[70%]">
+                        {/* Search bar - Full width on mobile,  */}
+                        <div className="w-full sm:flex-1 ">
                             <SearchInput
                                 onSearch={handleSearch}
                                 placeholder="Search child..."
@@ -167,17 +188,15 @@ const SanthaWishesPage = () => {
                         </div>
                     </div>
 
-                    {/* Grant All button - Perfect alignment */}
-                    <div className="flex justify-start">
-                        <button
-                            onClick={confirmGrantAllGlobal}
-                            className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 text-sm hover:shadow-xl"
-                            title="Grant ALL pending wishes globally"
-                        >
-                            <FaMagic className="text-base" />
-                            <span>Grant All Wishes</span>
-                        </button>
-                    </div>
+                    {/* Grant All button - Visible on small screens only, full width */}
+                    <button
+                        onClick={confirmGrantAllGlobal}
+                        className="md:hidden w-full px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 cursor-pointer hover:from-amber-400 hover:to-orange-400 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 text-sm hover:shadow-xl"
+                        title="Grant ALL pending wishes globally"
+                    >
+                        <FaMagic className="text-base" />
+                        <span>Grant All</span>
+                    </button>
                 </div>
             </div>
 
