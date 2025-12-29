@@ -16,6 +16,7 @@ import AdminLayout from '../layouts/AdminLayout';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import MyWishesPage from '../pages/wishes/MyWishesPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
+import SanthaWishesPage from '../pages/admin/SanthaWishesPage';
 
 // Route Guards
 import { PublicRoute, ProtectedRoute, AdminRoute } from './guards';
@@ -110,7 +111,7 @@ const RouterConfig = () => {
             children: [
                 { path: 'dashboard', element: <AdminDashboardPage /> },
                 { path: 'users', element: <div className="p-10 text-center text-2xl text-santa-red">Naughty & Nice List (Restricted)</div> },
-                { path: 'wishes', element: <div className="p-10 text-center text-2xl font-bold text-santa-red">Global Wish Moderation</div> },
+                { path: 'wishes', element: <SanthaWishesPage /> },
                 { path: 'analytics', element: <div className="p-10 text-center text-2xl font-bold text-white/50">Spiritual Analytics Flow</div> },
                 { path: 'settings', element: <div className="p-10 text-center text-2xl font-bold">Sanctum Configuration</div> },
             ]

@@ -8,6 +8,7 @@ import { showToast } from '../../components/ui/toast/ChrisToast';
 import TextArea from '../../components/ui/input/TextArea';
 import { WishSchema } from '../../validations/WishSchema';
 import DateFormatter from '../../utils/date/DateFormatter';
+import WishListSkeleton from '../../components/ui/skeleton/WishListSkeleton';
 
 const MAX_WISHES = 3;
 
@@ -78,9 +79,9 @@ const MyWishesPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`relative p-6 rounded-2xl border transition-all duration-300 min-h-[320px] flex flex-col items-center justify-center text-center z-20 
+                    className={`relative p-6 rounded-2xl border transition-all duration-300 min-h-[200px] flex flex-col items-center justify-center text-center z-20 group overflow-hidden
                         ${isFilled
-                            ? 'bg-white/10 border-white/20 backdrop-blur-md shadow-lg cursor-default'
+                            ? 'bg-white/10 border-white/30 backdrop-blur-md shadow-[0_0_25px_rgba(255,255,255,0.15)] cursor-default'
                             : isNext
                                 ? 'bg-santa-red/10 border-santa-red/30 border-dashed cursor-pointer hover:bg-santa-red/20 hover:scale-[1.02]'
                                 : 'bg-black/20 border-white/5 opacity-50 cursor-not-allowed'
@@ -88,25 +89,80 @@ const MyWishesPage = () => {
                     `}
                     onClick={() => isNext && !isFocused && setFocusedSlot(i)}
                 >
+                    {/* Snowflakes Decoration for Filled Card - GoogleAuthButton Style */}
+                    {isFilled && (
+                        <div className="absolute inset-0 pointer-events-none">
+                            {/* Base Glow */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-30" />
+
+                            {/* 1. Top Right */}
+                            <motion.div
+                                className="absolute -right-4 -top-4 text-white/20"
+                                animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+                                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                            >
+                                <FaSnowflake size={60} />
+                            </motion.div>
+
+                            {/* 2. Bottom Left */}
+                            <motion.div
+                                className="absolute -left-2 -bottom-2 text-white/15"
+                                animate={{ rotate: -180, scale: [1, 1.1, 1] }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <FaSnowflake size={40} />
+                            </motion.div>
+
+                            {/* 3. Top Left - Drifting */}
+                            <motion.div
+                                className="absolute left-4 top-4 text-white/10"
+                                animate={{ y: [-5, 5, -5], opacity: [0.3, 0.6, 0.3] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <FaSnowflake size={20} />
+                            </motion.div>
+
+                            {/* 4. Bottom Right - Pulsing */}
+                            <motion.div
+                                className="absolute right-6 bottom-8 text-white/20"
+                                animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.4, 0.8, 0.4] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                            >
+                                <FaSnowflake size={16} />
+                            </motion.div>
+
+                            {/* 5. Center - Subtle Glow */}
+                            <motion.div
+                                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white/5"
+                                animate={{ rotate: 45, scale: [0.8, 1.2, 0.8] }}
+                                transition={{ duration: 6, repeat: Infinity }}
+                            >
+                                <FaSnowflake size={100} />
+                            </motion.div>
+                        </div>
+                    )}
+
                     {isFilled ? (
-                        <div className="flex flex-col h-full justify-between items-center w-full">
-                            <FaMagic className="text-yellow-400 text-3xl mb-4 animate-pulse" />
+                        <div className="flex flex-col h-full justify-between items-center w-full relative z-10">
+                            <div className="bg-white/10 p-3 rounded-full mb-2 shadow-[0_0_15px_rgba(255,215,0,0.3)] animate-pulse-slow">
+                                <FaMagic className="text-yellow-300 text-xl drop-shadow-md" />
+                            </div>
                             <div className="flex-grow flex items-center justify-center w-full">
-                                <p className="text-lg font-medium text-white line-clamp-6 overflow-hidden break-words w-full px-4 italic">
+                                <p className="text-base font-medium text-white line-clamp-4 overflow-hidden break-words w-full px-2 italic drop-shadow-sm">
                                     "{wish.content}"
                                 </p>
                             </div>
-                            <div className="mt-4 flex flex-col items-center gap-1 w-full">
-                                <span className="text-[10px] uppercase tracking-widest text-santa-red font-bold">Wished On</span>
+                            <div className="mt-3 flex flex-col items-center gap-1 w-full">
+                                <span className="text-[10px] uppercase tracking-widest text-santa-red font-bold drop-shadow-sm">Granted on</span>
                                 <DateFormatter
                                     dateString={wish.created_at}
-                                    className="text-xs text-white/70 bg-black/20 px-3 py-1 rounded-full"
+                                    className="text-[10px] text-white/80 bg-black/30 px-3 py-1 rounded-full border border-white/5 backdrop-blur-sm"
                                 />
                             </div>
                         </div>
                     ) : isNext ? (
                         isFocused ? (
-                            <div className="w-full h-full" onClick={(e) => e.stopPropagation()}>
+                            <div className="w-full h-full relative z-10" onClick={(e) => e.stopPropagation()}>
                                 <Formik
                                     initialValues={{ content: '' }}
                                     validationSchema={WishSchema}
@@ -120,7 +176,7 @@ const MyWishesPage = () => {
                                                 <TextArea
                                                     name="content"
                                                     placeholder="I wish for..."
-                                                    rows={5}
+                                                    rows={4}
                                                     className="h-full"
                                                     autoFocus
                                                 />
@@ -147,14 +203,14 @@ const MyWishesPage = () => {
                                 </Formik>
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full">
-                                <FaPlus className="text-santa-red text-4xl mb-4 opacity-70" />
+                            <div className="flex flex-col items-center justify-center h-full relative z-10">
+                                <FaPlus className="text-santa-red text-4xl mb-4 opacity-70 group-hover:scale-110 transition-transform" />
                                 <h3 className="text-xl font-bold text-santa-red">Make a Wish</h3>
                                 <p className="text-sm text-white/60">Tap to unlock slot #{i + 1}</p>
                             </div>
                         )
                     ) : (
-                        <div className="flex flex-col items-center justify-center h-full">
+                        <div className="flex flex-col items-center justify-center h-full relative z-10">
                             <FaSnowflake className="text-white/10 text-4xl mb-4" />
                             <p className="text-sm text-white/30">Locked</p>
                             <p className="text-xs text-white/20 mt-2">Use previous wish first</p>
@@ -189,13 +245,9 @@ const MyWishesPage = () => {
                 </motion.div>
 
                 {loading ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="h-64 rounded-2xl bg-white/5 animate-pulse" />
-                        ))}
-                    </div>
+                    <WishListSkeleton />
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <AnimatePresence>
                             {renderSlots()}
                         </AnimatePresence>
@@ -206,7 +258,7 @@ const MyWishesPage = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}
-                    className="mt-16 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm max-w-3xl mx-auto text-center z-10 relative"
+                    className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm max-w-full mx-auto text-center z-10 relative"
                 >
                     <p className="text-white/60 text-sm">
                         "The magic lies not in the receiving, but in the believing."
