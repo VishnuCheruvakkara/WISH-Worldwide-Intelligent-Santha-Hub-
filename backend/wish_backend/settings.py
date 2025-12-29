@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Custom apps
     "users",
+    "wishes",
 ]
 
 AUTH_USER_MODEL = "users.CustomUser"

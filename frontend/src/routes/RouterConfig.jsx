@@ -14,6 +14,7 @@ import AdminLayout from '../layouts/AdminLayout';
 
 // Pages
 import DashboardPage from '../pages/dashboard/DashboardPage';
+import MyWishesPage from '../pages/wishes/MyWishesPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 
 // Route Guards
@@ -88,7 +89,7 @@ const RouterConfig = () => {
             children: [
                 { path: '/dashboard', element: <DashboardPage /> },
                 { path: '/profile', element: <div className="p-10 text-center text-2xl">Spirit Profile (Coming Soon)</div> },
-                { path: '/wishes', element: <div className="p-10 text-center text-2xl">My Wishes (Coming Soon)</div> },
+                { path: '/wishes', element: <MyWishesPage /> },
                 { path: '/history', element: <div className="p-10 text-center text-2xl font-bold">Wish History (Coming Soon)</div> },
                 { path: '/settings', element: <div className="p-10 text-center text-2xl font-bold text-gray-400">Settings (Coming Soon)</div> },
             ]
