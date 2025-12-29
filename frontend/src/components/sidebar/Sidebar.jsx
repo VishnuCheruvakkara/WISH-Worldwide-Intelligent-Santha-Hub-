@@ -19,7 +19,7 @@ const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
         <motion.div
             initial={false}
             animate={{ width: isOpen ? '260px' : '80px' }}
-            className="fixed left-0 top-16 h-[calc(100vh-64px)] bg-[#050E3C]/95 backdrop-blur-xl border-r border-white/10 z-40 hidden md:flex flex-col transition-all duration-300 shadow-[20px_0_50px_rgba(0,0,0,0.3)]"
+            className="fixed left-0 top-16 h-[calc(100vh-64px)] bg-santa-navy-dark/10 backdrop-blur-sm border-r border-white/10 z-40 hidden md:flex flex-col transition-all duration-300 shadow-[20px_0_50px_rgba(0,0,0,0.3)]"
         >
             {/* Toggle Button */}
             <button

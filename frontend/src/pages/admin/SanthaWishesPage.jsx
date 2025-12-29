@@ -285,7 +285,7 @@ const SanthaWishesPage = () => {
                                                                         e.stopPropagation();
                                                                         handleGrantWish(wish, index);
                                                                     }}
-                                                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all
+                                                                    className={`w-8 h-8 rounded-full cursor-pointer  flex items-center justify-center transition-all
                                                                         ${wish.is_granted
                                                                             ? 'bg-green-500/10 text-green-500 cursor-default'
                                                                             : 'bg-white/5 hover:bg-green-500 text-white/50 hover:text-white hover:shadow-lg'

@@ -226,7 +226,6 @@ const MyWishesPage = () => {
         <div className="min-h-screen pt-24 px-4 pb-12 relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-santa-red/20 rounded-full blur-[100px]" />
                 <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px]" />
             </div>
 

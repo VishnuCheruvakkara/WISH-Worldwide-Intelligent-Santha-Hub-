@@ -88,7 +88,6 @@ const LandingPage = () => {
                 {/* Background Decor - Fixed */}
                 <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-20">
                     <div className="absolute top-[10%] left-[10%] w-72 h-72 bg-santa-navy rounded-full blur-[120px] opacity-40 animate-pulse"></div>
-                    <div className="absolute bottom-[20%] right-[10%] w-96 h-96 bg-santa-red-dark rounded-full blur-[150px] opacity-20 animate-pulse delay-1000"></div>
                 </div>
 
                 <main className="relative z-10 bg-santa-navy-dark">
