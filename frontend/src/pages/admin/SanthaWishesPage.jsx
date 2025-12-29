@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCheck, FaSnowman, FaFilter, FaChevronDown, FaChevronUp, FaMagic, FaCheckDouble } from 'react-icons/fa';
+import { FaCheck, FaFilter, FaChevronDown, FaChevronUp, FaMagic } from 'react-icons/fa';
 import wishService from '../../services/wishServices/wishService';
 import SearchInput from '../../components/ui/search/SearchInput';
 import Pagination from '../../components/ui/pagination/Pagination';
@@ -128,49 +128,56 @@ const SanthaWishesPage = () => {
     };
 
     return (
-        <div className="min-h-screen pt-4 px-4 pb-12 relative overflow-hidden text-white">
+        <div className="min-h-screen pt-4 px-3 pb-6 relative overflow-hidden text-white">
 
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 relative z-20 max-w-5xl mx-auto bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md">
-
-                <div className="flex items-center gap-4 min-w-max">
-                    <div className="bg-santa-red/20 p-2 rounded-lg">
-                        <FaSnowman className="text-santa-red text-2xl" />
-                    </div>
-                    <div>
-                        <h1 className="text-xl font-bold text-white leading-tight">Santha's List</h1>
-                        <p className="text-xs text-white/50">{totalUsers} Children Found</p>
+            <div className="max-w-5xl mx-auto mb-4">
+                {/* Header with Magic icon */}
+                <div className="flex items-center gap-3 pb-8">
+                    <FaMagic className="text-2xl text-santa-red" />
+                    <div> 
+                        <h1 className="text-xl font-bold text-white">Santha's List</h1>
+                        <p className="text-xs text-white/50">{totalUsers} Children</p>
                     </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto items-center">
+                {/* Perfect Responsive Layout */}
+                <div className="flex flex-col gap-3">
+                    {/* Search + Filter row - Perfect alignment for all screen sizes */}
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        {/* Search bar - Full width on mobile, 70% on desktop */}
+                        <div className="w-full sm:flex-1 sm:max-w-[70%]">
+                            <SearchInput
+                                onSearch={handleSearch}
+                                placeholder="Search child..."
+                                className="w-full text-sm"
+                            />
+                        </div>
 
-                    <div className="w-full sm:w-64">
-                        <SearchInput
-                            onSearch={handleSearch}
-                            placeholder="Search child..."
-                            className="w-full"
-                        />
+                        {/* Filter - Full width on mobile, 30% on desktop with min-width */}
+                        <div className="w-full sm:w-auto sm:min-w-[200px] sm:flex-shrink-0">
+                            <CustomSelect
+                                options={filterOptions}
+                                value={statusFilter}
+                                onChange={(val) => {
+                                    setStatusFilter(val);
+                                    setCurrentPage(1);
+                                }}
+                                icon={FaFilter}
+                            />
+                        </div>
                     </div>
 
-                    <div className="w-full sm:w-40 z-30">
-                        <CustomSelect
-                            options={filterOptions}
-                            value={statusFilter}
-                            onChange={(val) => {
-                                setStatusFilter(val);
-                                setCurrentPage(1);
-                            }}
-                            icon={FaFilter}
-                        />
+                    {/* Grant All button - Perfect alignment */}
+                    <div className="flex justify-start">
+                        <button
+                            onClick={confirmGrantAllGlobal}
+                            className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 text-sm hover:shadow-xl"
+                            title="Grant ALL pending wishes globally"
+                        >
+                            <FaMagic className="text-base" />
+                            <span>Grant All Wishes</span>
+                        </button>
                     </div>
-
-                    <button
-                        onClick={confirmGrantAllGlobal}
-                        className="w-full sm:w-auto px-4 py-3 bg-green-600/80 hover:bg-green-500 text-white rounded-xl font-bold shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95 text-sm whitespace-nowrap border border-green-400/30"
-                        title="Grant ALL pending wishes globally"
-                    >
-                        <FaCheckDouble /> Grant All
-                    </button>
                 </div>
             </div>
 

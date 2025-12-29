@@ -21,26 +21,27 @@ const CustomSelect = ({ options, value, onChange, icon: Icon, className = "" }) 
 
     return (
         <div className={`relative ${className}`} ref={containerRef}>
-            {/* Trigger Button */}
+            {/* Trigger Button - Perfect for all screen sizes */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between gap-3 px-2 py-3 bg-white/5 border  cursor-pointer border-white/10 rounded-xl hover:bg-white/10 transition-colors text-white text-left focus:outline-none focus:ring-2 focus:ring-santa-red/50"
+                className="w-full h-full flex items-center justify-between gap-3 px-4 py-2.5 bg-white/5 border cursor-pointer border-white/10 rounded-xl hover:bg-white/10 transition-colors text-white text-left focus:outline-none focus:ring-2 focus:ring-santa-red/50"
             >
-                <div className="flex items-center gap-2">
-                    {Icon && <Icon className="text-white/50" />}
-                    <span>{selectedOption.label}</span>
+                <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                    {Icon && <Icon className="text-white/50 flex-shrink-0 text-base" />}
+                    <span className="truncate text-sm font-medium">{selectedOption.label}</span>
                 </div>
-                <FaChevronDown className={`text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                <FaChevronDown className={`text-xs text-white/50 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu - Perfect positioning */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full left-0 right-0 mt- bg-[#0F172A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50 backdrop-blur-xl"
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 right-0 mt-2 bg-[#0F172A] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 backdrop-blur-xl"
                     >
                         {options.map((option) => (
                             <button
@@ -49,12 +50,12 @@ const CustomSelect = ({ options, value, onChange, icon: Icon, className = "" }) 
                                     onChange(option.value);
                                     setIsOpen(false);
                                 }}
-                                className={`w-full cursor-pointer flex items-center gap-2 px-4 py-3 text-left hover:bg-white/5 transition-colors
+                                className={`w-full cursor-pointer flex items-center gap-2.5 px-4 py-3 text-left hover:bg-white/10 transition-all duration-150
                                     ${value === option.value ? 'text-santa-red font-bold bg-white/5' : 'text-white/80'}
                                 `}
                             >
-                                {option.icon && <option.icon />}
-                                {option.label}
+                                {option.icon && <option.icon className="flex-shrink-0 text-base" />}
+                                <span className="text-sm">{option.label}</span>
                             </button>
                         ))}
                     </motion.div>

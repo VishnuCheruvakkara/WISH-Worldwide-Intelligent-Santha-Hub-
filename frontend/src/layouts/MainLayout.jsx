@@ -30,14 +30,14 @@ const MainLayout = ({ menuItems }) => {
                     className="hidden md:flex flex-1 flex-col min-h-[calc(100vh-64px)] transition-all duration-300 overflow-hidden"
                     style={{ width: isSidebarOpen ? 'calc(100% - 260px)' : 'calc(100% - 80px)' }}
                 >
-                    <div className="flex-1 relative md:p-4 px-1 py-2">
+                    <div className="flex-1 relative ">
                         <Outlet />
                     </div>
                     <Footer />
                 </motion.main>
 
                 <main className="flex md:hidden flex-1 flex-col min-h-[calc(100vh-64px)] w-full pb-20 overflow-x-hidden">
-                    <div className="flex-1 relative md:p-4 px-1 py-2">
+                    <div className="flex-1 relative ">
                         <Outlet />
                     </div>
                     <Footer />
