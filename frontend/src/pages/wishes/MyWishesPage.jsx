@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-hot-toast';
+import { Formik, Form } from 'formik';
 import wishService from '../../services/wishServices/wishService';
 import { FaMagic, FaPlus, FaSnowflake } from 'react-icons/fa';
-import ChristmasModal from '../../components/ui/ChristmasModal';
+import ChristmasModal from '../../components/ui/modal/ChristmasModal';
+import { showToast } from '../../components/ui/toast/ChrisToast';
+import TextArea from '../../components/ui/input/TextArea';
+import { WishSchema } from '../../validations/WishSchema';
+import DateFormatter from '../../utils/date/DateFormatter';
 
 const MAX_WISHES = 3;
 
 const MyWishesPage = () => {
     const [wishes, setWishes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [newWishContent, setNewWishContent] = useState("");
     const [focusedSlot, setFocusedSlot] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Temporary state to hold form data for the modal confirmation
+    const [pendingWish, setPendingWish] = useState(null);
 
     useEffect(() => {
         fetchWishes();
@@ -23,49 +28,41 @@ const MyWishesPage = () => {
         try {
             setLoading(true);
             const data = await wishService.getWishes();
-            setWishes(data);
+            // Ensure array even if backend response varies
+            setWishes(Array.isArray(data) ? data : (data.results || []));
         } catch (error) {
-            toast.error("Failed to fetch your wishes. The elves are investigating.");
+            showToast.error("Failed to fetch your wishes. The elves are investigating.");
         } finally {
             setLoading(false);
         }
     };
 
-    const confirmWishCreation = (e) => {
-        e.preventDefault();
-        if (!newWishContent.trim()) return;
+    const initiateWishCreation = (values) => {
+        setPendingWish(values.content);
         setIsModalOpen(true);
     };
 
-    const handleCreateWish = async () => {
+    const handleConfirmWish = async () => {
         setIsModalOpen(false);
 
         if (wishes.length >= MAX_WISHES) {
-            toast.error("You have already used all your wishes!");
+            showToast.error("You have already used all your wishes!");
             return;
         }
 
         try {
-            setIsSubmitting(true);
-            const newWish = await wishService.createWish(newWishContent);
+            const newWish = await wishService.createWish(pendingWish);
             setWishes([...wishes, newWish]);
-            setNewWishContent("");
+            setPendingWish(null);
             setFocusedSlot(null);
 
-            // Standard styling with Icon as requested
-            toast.success("Your wish has been sent to Santa!", {
-                icon: '🎅',
-                duration: 5000,
-            });
-
+            showToast.success("Your wish has been sent to Santa!");
         } catch (error) {
-            toast.error("Could not make a wish. Magic interference?");
-        } finally {
-            setIsSubmitting(false);
+            showToast.error("Could not make a wish. Magic interference?");
         }
     };
 
-    // Helper to generate slots
+    // Render Logic
     const renderSlots = () => {
         const slots = [];
         for (let i = 0; i < MAX_WISHES; i++) {
@@ -73,6 +70,7 @@ const MyWishesPage = () => {
             const isFilled = !!wish;
             const isNext = !isFilled && i === wishes.length;
             const isLocked = !isFilled && i > wishes.length;
+            const isFocused = focusedSlot === i;
 
             slots.push(
                 <motion.div
@@ -80,7 +78,7 @@ const MyWishesPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`relative p-6 rounded-2xl border transition-all duration-300 h-64 flex flex-col items-center justify-center text-center z-20 
+                    className={`relative p-6 rounded-2xl border transition-all duration-300 min-h-[320px] flex flex-col items-center justify-center text-center z-20 
                         ${isFilled
                             ? 'bg-white/10 border-white/20 backdrop-blur-md shadow-lg cursor-default'
                             : isNext
@@ -88,58 +86,79 @@ const MyWishesPage = () => {
                                 : 'bg-black/20 border-white/5 opacity-50 cursor-not-allowed'
                         }
                     `}
-                    onClick={() => isNext && setFocusedSlot(i)}
+                    onClick={() => isNext && !isFocused && setFocusedSlot(i)}
                 >
                     {isFilled ? (
-                        <>
+                        <div className="flex flex-col h-full justify-between items-center w-full">
                             <FaMagic className="text-yellow-400 text-3xl mb-4 animate-pulse" />
-                            <p className="text-lg font-medium text-white line-clamp-4 overflow-hidden break-words w-full">
-                                {wish.content}
-                            </p>
-                            <span className="absolute bottom-4 text-xs text-white/50">
-                                Wished on {new Date(wish.created_at).toLocaleDateString()}
-                            </span>
-                        </>
+                            <div className="flex-grow flex items-center justify-center w-full">
+                                <p className="text-lg font-medium text-white line-clamp-6 overflow-hidden break-words w-full px-4 italic">
+                                    "{wish.content}"
+                                </p>
+                            </div>
+                            <div className="mt-4 flex flex-col items-center gap-1 w-full">
+                                <span className="text-[10px] uppercase tracking-widest text-santa-red font-bold">Wished On</span>
+                                <DateFormatter
+                                    dateString={wish.created_at}
+                                    className="text-xs text-white/70 bg-black/20 px-3 py-1 rounded-full"
+                                />
+                            </div>
+                        </div>
                     ) : isNext ? (
-                        focusedSlot === i ? (
-                            <form onSubmit={confirmWishCreation} className="w-full flex flex-col items-center h-full justify-between py-2 relative z-30" onClick={(e) => e.stopPropagation()}>
-                                <h3 className="text-santa-red font-bold mb-2 text-sm sm:text-base">Make Wish #{i + 1}</h3>
-                                <textarea
-                                    autoFocus
-                                    className="w-full flex-grow bg-transparent text-white border-0 resize-none focus:ring-0 p-2 text-center placeholder-white/30 cursor-text text-sm sm:text-base leading-relaxed"
-                                    placeholder="I wish for..."
-                                    value={newWishContent}
-                                    onChange={(e) => setNewWishContent(e.target.value)}
-                                ></textarea>
-                                <div className="flex flex-col sm:flex-row w-full gap-2 mt-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setFocusedSlot(null)}
-                                        className="flex-1 px-3 py-1.5 sm:px-4 sm:py-2 bg-transparent hover:bg-white/10 text-white/70 rounded-full font-medium text-xs sm:text-sm transition-all"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className="flex-1 px-3 py-1.5 sm:px-4 sm:py-2 bg-santa-red hover:bg-red-600 text-white rounded-full font-bold shadow-lg flex items-center justify-center gap-1 sm:gap-2 transform active:scale-95 transition-all cursor-pointer text-xs sm:text-sm"
-                                    >
-                                        {isSubmitting ? 'Sending...' : <>Grant It! <FaMagic /></>}
-                                    </button>
-                                </div>
-                            </form>
+                        isFocused ? (
+                            <div className="w-full h-full" onClick={(e) => e.stopPropagation()}>
+                                <Formik
+                                    initialValues={{ content: '' }}
+                                    validationSchema={WishSchema}
+                                    onSubmit={initiateWishCreation}
+                                >
+                                    {({ isSubmitting }) => (
+                                        <Form className="w-full h-full flex flex-col justify-between">
+                                            <h3 className="text-santa-red font-bold mb-2">Make Wish #{i + 1}</h3>
+
+                                            <div className="flex-grow w-full relative">
+                                                <TextArea
+                                                    name="content"
+                                                    placeholder="I wish for..."
+                                                    rows={5}
+                                                    className="h-full"
+                                                    autoFocus
+                                                />
+                                            </div>
+
+                                            <div className="flex flex-col sm:flex-row gap-2 mt-4 w-full">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setFocusedSlot(null)}
+                                                    className="flex-1 px-4 py-2 bg-transparent hover:bg-white/10 text-white/70 rounded-full font-medium text-sm transition-all border border-white/10"
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                    className="flex-1 px-4 py-2 bg-santa-red hover:bg-red-600 text-white rounded-full font-bold shadow-lg flex items-center justify-center gap-2 transform active:scale-95 transition-all text-sm cursor-pointer"
+                                                >
+                                                    Review <FaMagic />
+                                                </button>
+                                            </div>
+                                        </Form>
+                                    )}
+                                </Formik>
+                            </div>
                         ) : (
-                            <>
+                            <div className="flex flex-col items-center justify-center h-full">
                                 <FaPlus className="text-santa-red text-4xl mb-4 opacity-70" />
                                 <h3 className="text-xl font-bold text-santa-red">Make a Wish</h3>
-                                <p className="text-sm text-white/60">Tap to write your wish</p>
-                            </>
+                                <p className="text-sm text-white/60">Tap to unlock slot #{i + 1}</p>
+                            </div>
                         )
                     ) : (
-                        <>
+                        <div className="flex flex-col items-center justify-center h-full">
                             <FaSnowflake className="text-white/10 text-4xl mb-4" />
                             <p className="text-sm text-white/30">Locked</p>
-                        </>
+                            <p className="text-xs text-white/20 mt-2">Use previous wish first</p>
+                        </div>
                     )}
                 </motion.div>
             );
@@ -170,13 +189,13 @@ const MyWishesPage = () => {
                 </motion.div>
 
                 {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {[1, 2, 3].map(i => (
                             <div key={i} className="h-64 rounded-2xl bg-white/5 animate-pulse" />
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <AnimatePresence>
                             {renderSlots()}
                         </AnimatePresence>
@@ -198,7 +217,7 @@ const MyWishesPage = () => {
                 <ChristmasModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    onConfirm={handleCreateWish}
+                    onConfirm={handleConfirmWish}
                     title="Confirm Your Wish"
                     confirmText="Yes, Grant it!"
                     cancelText="Wait, let me think"
@@ -206,9 +225,9 @@ const MyWishesPage = () => {
                     <p className="mb-4">
                         You are about to make your <span className="font-bold text-santa-red">{wishes.length + 1}th wish</span> out of 3.
                     </p>
-                    <p className="text-sm bg-white/5 p-4 rounded-lg border border-white/10 italic">
-                        "{newWishContent}"
-                    </p>
+                    <div className="text-sm bg-white/5 p-4 rounded-lg border border-white/10 italic max-h-40 overflow-y-auto custom-scrollbar">
+                        "{pendingWish}"
+                    </div>
                     <p className="mt-4 text-xs text-yellow-200/80">
                         ⚠ Once granted, a wish cannot be undone or changed. Magic is binding!
                     </p>

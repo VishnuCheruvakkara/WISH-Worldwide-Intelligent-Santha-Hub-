@@ -7,7 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Spinner from './components/ui/spinner/Spinner';
 import useCSRF from './hooks/useCSRF';
 import NavigationRegistrar from './services/navigation/NavigationRegistrar';
-import CustomToaster from './components/ui/CustomToaster';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [isInitialLoading, setIsInitialLoading] = React.useState(true);
@@ -35,7 +35,7 @@ function App() {
         <PersistGate loading={<Spinner />} persistor={persistor}>
           <BrowserRouter>
             <NavigationRegistrar />
-            <CustomToaster />
+            <Toaster position="top-right" />
             <RouterConfig />
           </BrowserRouter>
         </PersistGate>
@@ -45,4 +45,3 @@ function App() {
 }
 
 export default App;
-
