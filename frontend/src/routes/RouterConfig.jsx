@@ -17,16 +17,15 @@ import DashboardPage from '../pages/dashboard/DashboardPage';
 import MyWishesPage from '../pages/wishes/MyWishesPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import SanthaWishesPage from '../pages/admin/SanthaWishesPage';
+import SantaChatPage from '../pages/chat/SantaChatPage';
+import AdminChatListPage from '../pages/admin/AdminChatListPage';
+import AdminUserChatPage from '../pages/admin/AdminUserChatPage';
 
 // Route Guards
 import { PublicRoute, ProtectedRoute, AdminRoute } from './guards';
 
 const RouterConfig = () => {
     const routes = useRoutes([
-        // ═══════════════════════════════════════════════════════════════════
-        // PUBLIC ROUTES - Accessible by unauthenticated users only
-        // Authenticated users will be redirected to their respective dashboards
-        // ═══════════════════════════════════════════════════════════════════
         {
             path: '/',
             element: (
@@ -75,12 +74,6 @@ const RouterConfig = () => {
                 </PublicRoute>
             )
         },
-
-        // ═══════════════════════════════════════════════════════════════════
-        // USER ROUTES - Accessible by authenticated regular users only
-        // Unauthenticated users → redirected to login
-        // Admin users → redirected to admin dashboard
-        // ═══════════════════════════════════════════════════════════════════
         {
             element: (
                 <ProtectedRoute>
@@ -91,16 +84,11 @@ const RouterConfig = () => {
                 { path: '/dashboard', element: <DashboardPage /> },
                 { path: '/profile', element: <div className="p-10 text-center text-2xl">Spirit Profile (Coming Soon)</div> },
                 { path: '/wishes', element: <MyWishesPage /> },
+                { path: '/chat', element: <SantaChatPage /> },
                 { path: '/history', element: <div className="p-10 text-center text-2xl font-bold">Wish History (Coming Soon)</div> },
                 { path: '/settings', element: <div className="p-10 text-center text-2xl font-bold text-gray-400">Settings (Coming Soon)</div> },
             ]
         },
-
-        // ═══════════════════════════════════════════════════════════════════
-        // ADMIN ROUTES - Accessible by authenticated admin users only
-        // Unauthenticated users → redirected to santa-login
-        // Regular users → redirected to user dashboard
-        // ═══════════════════════════════════════════════════════════════════
         {
             path: '/admin',
             element: (
@@ -112,15 +100,13 @@ const RouterConfig = () => {
                 { path: 'dashboard', element: <AdminDashboardPage /> },
                 { path: 'users', element: <div className="p-10 text-center text-2xl text-santa-red">Naughty & Nice List (Restricted)</div> },
                 { path: 'wishes', element: <SanthaWishesPage /> },
+                { path: 'chat', element: <AdminChatListPage /> },
+                { path: 'chat/:userId', element: <AdminUserChatPage /> },
                 { path: 'analytics', element: <div className="p-10 text-center text-2xl font-bold text-white/50">Spiritual Analytics Flow</div> },
                 { path: 'settings', element: <div className="p-10 text-center text-2xl font-bold">Sanctum Configuration</div> },
             ]
         },
-
-        // Legacy redirect
         { path: '/admin-dashboard', element: <Navigate to="/admin/dashboard" replace /> },
-
-        // 404 - Not Found (accessible by everyone)
         { path: '*', element: <NotFoundPage /> },
     ]);
 

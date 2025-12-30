@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     # Custom apps
     "users",
     "wishes",
+    "chat",
 ]
 
 AUTH_USER_MODEL = "users.CustomUser"
