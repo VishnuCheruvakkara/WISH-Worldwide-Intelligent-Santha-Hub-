@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="" target="_blank">
-    <img alt="View Live Project" src="https://img.shields.io/badge/Live%20Demo-0abab5?style=for-the-badge&logo=vercel&logoColor=white" />
+    <img alt="View Live Project" src="https://img.shields.io/badge/Live%20Demo-08122b?style=for-the-badge&logo=vercel&logoColor=white" />
   </a>
   &nbsp;
   <a href="" target="_blank">
