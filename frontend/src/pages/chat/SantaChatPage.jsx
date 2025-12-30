@@ -4,6 +4,9 @@ import { FaPaperPlane, FaSnowflake, FaMagic } from 'react-icons/fa';
 import chatService from '../../services/chatService';
 import { showToast } from '../../components/ui/toast/ChrisToast';
 
+import SnowflakeLoader from '../../components/ui/spinner/SnowflakeLoader';
+import NoResultsFound from '../../components/ui/empty/NoResultsFound';
+
 const SantaChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -138,20 +141,9 @@ const SantaChatPage = () => {
                 className="flex-grow overflow-y-auto mb-4 space-y-4 pr-2 custom-scrollbar relative z-10 min-h-0"
             >
                 {loading && messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full gap-4">
-                        <FaSnowflake className="text-4xl text-santa-red animate-spin text-white/20" />
-                        <p className="text-white/40 italic">Polishing sleigh bells...</p>
-                    </div>
+                    <SnowflakeLoader message="Polishing sleigh bells..." />
                 ) : messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center px-6">
-                        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10">
-                            <FaMagic className="text-3xl text-amber-500/50" />
-                        </div>
-                        <h2 className="text-xl font-bold text-white/80 mb-2">Ho ho ho!</h2>
-                        <p className="text-white/40 text-sm max-w-xs">
-                            Tell Santa anything! Your secrets are safe here in the magical North Pole.
-                        </p>
-                    </div>
+                    <NoResultsFound message="Tell Santa anything! Your secrets are safe here in the magical North Pole." />
                 ) : (
                     <div className="flex flex-col gap-4 py-2">
                         {groupedMessages.map((item) => (

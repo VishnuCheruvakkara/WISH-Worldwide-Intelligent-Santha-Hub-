@@ -5,6 +5,8 @@ import { FaChevronLeft, FaUser } from 'react-icons/fa';
 import chatService from '../../services/chatService';
 import { showToast } from '../../components/ui/toast/ChrisToast';
 import DateFormatter from '../../utils/date/DateFormatter';
+import SnowflakeLoader from '../../components/ui/spinner/SnowflakeLoader';
+import NoResultsFound from '../../components/ui/empty/NoResultsFound';
 
 const AdminUserChatPage = () => {
     const { userId } = useParams();
@@ -84,14 +86,9 @@ const AdminUserChatPage = () => {
                 className="flex-grow overflow-y-auto mb-4 space-y-6 pr-2 custom-scrollbar relative z-10 min-h-0"
             >
                 {loading ? (
-                    <div className="flex items-center justify-center h-full">
-                        <div className="w-10 h-10 border-4 border-santa-red border-t-transparent rounded-full animate-spin"></div>
-                    </div>
+                    <SnowflakeLoader message="Fetching the magical logs..." />
                 ) : messages.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
-                        <FaUser className="text-4xl mb-2" />
-                        <p className="text-sm">No messages in this magical thread yet.</p>
-                    </div>
+                    <NoResultsFound message="No messages in this magical thread yet." />
                 ) : (
                     <div className="flex flex-col gap-6 py-2">
                         {messages.map((msg, idx) => (
