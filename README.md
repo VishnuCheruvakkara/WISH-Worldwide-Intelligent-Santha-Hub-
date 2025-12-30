@@ -8,13 +8,17 @@
 </p>
 
 <p align="center">
- 
+  <a href="" target="_blank">
+    <img alt="View Live Project" src="https://img.shields.io/badge/Live%20Demo-0abab5?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
   &nbsp;
   <a href="" target="_blank">
     <img alt="Watch Demo Video" src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   &nbsp;
- 
+  <a href="" target="_blank">
+    <img alt="Connect on LinkedIn" src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=logmein&logoColor=white" />
+  </a>
 </p>
 
 ---
