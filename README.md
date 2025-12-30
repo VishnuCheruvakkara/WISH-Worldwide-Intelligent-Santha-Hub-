@@ -2,6 +2,21 @@
 
 **W.I.S.Hub** is a magical, full-stack Christmas-themed platform where users can interact with an AI Santa, share festive memories in a community gallery, and make heart-warming wishes. Built with a premium aesthetic and modern tech stack, it brings the spirit of the North Pole to the digital world.
 
+
+<p align="center">
+  <img src="./assets/WISHHome.jpg" alt="ChatUp home page" width="100%" style="border-radius: 16px;" />
+</p>
+
+<p align="center">
+ 
+  &nbsp;
+  <a href="" target="_blank">
+    <img alt="Watch Demo Video" src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+  </a>
+  &nbsp;
+ 
+</p>
+
 ---
 
 ## ✨ Features
