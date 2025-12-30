@@ -5,6 +5,7 @@
   --color-santa-navy: #002455;
   --color-santa-red-dark: #DC0000;
   --color-santa-red: #FF3838;
+  --color-brand-3: #FF3838;
 }
 
 :root {
@@ -17,6 +18,18 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+/* Text Selection Styling */
+::selection {
+  background-color: var(--color-santa-red);
+  color: white;
+}
+
+/* For Firefox */
+::-moz-selection {
+  background-color: var(--color-santa-red);
+  color: white;
 }
 
 /* Floating Animation */
@@ -32,4 +45,44 @@ body {
 
 .animate-float-delayed {
   animation: float 6s ease-in-out 3s infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+
+/* Customize side bar  */
+
+::-webkit-scrollbar {
+  width: 8px; 
+  height:8px;
+}
+
+::-webkit-scrollbar-track {
+  background:  #050E3C !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  #FF3838 !important;
+  border-radius: 0 !important; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background:  #DC0000 !important; /* slightly darker hover */
+}
+
+/* Custom input fill behavior */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #122855 inset !important;
+    -webkit-text-fill-color: #ffffff !important; /* your text color */
+    transition: background-color 5000s ease-in-out 0s;
 }
