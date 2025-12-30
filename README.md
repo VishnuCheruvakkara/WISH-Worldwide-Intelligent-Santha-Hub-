@@ -77,6 +77,7 @@ pip install -r requirements.txt
 
 # Configure Environment Variables
 # Create a .env file based on the provided settings
+# Copy the contents of `.env.example` into `.env`. 
 # Include: DATABASE_URL, CLOUDINARY_URL, SECRET_KEY, GOOGLE_OAUTH_CLIENT_ID
 
 # Run migrations
@@ -96,7 +97,8 @@ cd frontend
 npm install
 
 # Configure Environment Variables
-# Create a .env file with VITE_API_BASE_URL and VITE_GOOGLE_CLIENT_ID
+# Create a .env file
+# Copy the contents of `.env.example` into `.env`. ( add VITE_API_BASE_URL and VITE_GOOGLE_CLIENT_ID etc...)
 
 # Start Sleigh Development Mode
 npm run dev
