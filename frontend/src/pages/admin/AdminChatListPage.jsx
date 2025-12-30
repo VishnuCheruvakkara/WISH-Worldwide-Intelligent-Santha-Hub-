@@ -40,7 +40,7 @@ const AdminChatListPage = () => {
             setPage(pageNumber);
             setTotalPages(Math.ceil(count / 5)); // 5 is backend page size
         } catch (error) {
-            showToast.error("Couldn't fetch user chats.");
+            // showToast.error("Couldn't fetch user chats.");
         } finally {
             setLoading(false);
         }
@@ -61,7 +61,7 @@ const AdminChatListPage = () => {
                         <FaCommentDots className="relative text-2xl text-santa-red drop-shadow-[0_0_10px_rgba(255,0,0,0.8)]" />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-white">User Conversations</h1>
+                        <h1 className="text-xl font-bold text-white">User Chats</h1>
                         <p className="text-xs text-white/40">
                             {totalChats} Magical conversations found
                         </p>

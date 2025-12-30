@@ -101,22 +101,16 @@ const AdminUserChatPage = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 className={`flex flex-col ${msg.is_from_santa ? 'items-start' : 'items-end'}`}
                             >
-                                <div className={`max-w-[85%] sm:max-w-[70%] rounded-2xl p-4 shadow-xl relative backdrop-blur-md border border-white/20 ${msg.is_from_santa
+                                <div className={`max-w-[85%] sm:max-w-[70%] rounded-2xl px-4 py-1 shadow-xl relative backdrop-blur-md border border-white/20 ${msg.is_from_santa
                                     ? 'bg-white/10 text-white/90 rounded-tl-none'
                                     : 'bg-santa-red/80 text-white rounded-tr-none'
                                     }`}>
 
-                                    {/* Chat Bubble Tail */}
-                                    <div className={`absolute top-0 w-4 h-4 overflow-hidden ${msg.is_from_santa ? '-left-[8px]' : '-right-[8px]'}`}>
-                                        <div className={`w-3 h-3 absolute top-0 rotate-45 ${msg.is_from_santa
-                                            ? 'bg-white/10 left-[4px] border-l border-t border-white/10'
-                                            : 'bg-santa-red/80 right-[4px] border-r border-t border-white/10'
-                                            }`}></div>
-                                    </div>
+
 
                                     {/* Sender Label & Line */}
                                     <div className="flex flex-col mb-2">
-                                        <span className={`text-[11px] font-black tracking-wider ${msg.is_from_santa ? 'text-santa-red' : 'text-white'}`}>
+                                        <span className={`text-[11px] font-semibold tracking-wider ${msg.is_from_santa ? 'text-santa-red' : 'text-white'}`}>
                                             {msg.is_from_santa ? 'Santa AI' : 'User'}
                                         </span>
                                         <div className="h-[1px] w-full bg-white/10 mt-1" />
@@ -138,8 +132,8 @@ const AdminUserChatPage = () => {
             </div>
 
             <div className="flex-shrink-0 bg-white/5 border border-white/10 p-3 rounded-xl text-center backdrop-blur-sm">
-                <p className="text-amber-400 text-[10px] font-black uppercase tracking-widest">
-                    ✨ Administrator Mode: Magical Surveillance ✨
+                <p className="text-amber-400 text-[10px]  uppercase tracking-widest">
+                    Administrator Mode: Magical Surveillance
                 </p>
             </div>
         </div>
