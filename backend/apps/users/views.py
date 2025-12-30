@@ -357,11 +357,19 @@ class UserManagementViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         search_query = self.request.query_params.get("search", "")
+        status_filter = self.request.query_params.get("status", "")
+        
         if search_query:
             from django.db.models import Q
             queryset = queryset.filter(
                 Q(username__icontains=search_query) | Q(email__icontains=search_query)
             )
+            
+        if status_filter == 'active':
+            queryset = queryset.filter(is_active=True)
+        elif status_filter == 'blocked':
+            queryset = queryset.filter(is_active=False)
+            
         return queryset
 
     @action(detail=True, methods=["post"])
