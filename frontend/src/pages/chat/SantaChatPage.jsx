@@ -13,8 +13,11 @@ const SantaChatPage = () => {
     const chatContainerRef = useRef(null);
 
     const scrollToBottom = (behavior = "smooth") => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior });
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: behavior
+            });
         }
     };
 
@@ -25,7 +28,9 @@ const SantaChatPage = () => {
     // Scroll to bottom whenever messages or sending state changes
     useEffect(() => {
         if (messages.length > 0) {
-            scrollToBottom(messages.length === 1 ? "auto" : "smooth");
+            // Use 'auto' behavior if it's the first load or just a few messages
+            // to avoid seeing the scroll animation on every refresh
+            scrollToBottom(messages.length <= 5 ? "auto" : "smooth");
         }
     }, [messages, sending]);
 
@@ -104,25 +109,26 @@ const SantaChatPage = () => {
     });
 
     return (
-        <div className="flex flex-col h-[calc(100vh-140px)] sm:h-[calc(100vh-120px)] max-w-4xl mx-auto px-4 relative">
+        <div className="flex flex-col h-[calc(100vh-140px)] sm:h-[calc(100vh-120px)] max-w-4xl mx-auto px-4 relative overflow-hidden">
             {/* Background Decorations */}
             <div className="absolute top-20 left-10 text-white/5 pointer-events-none">
                 <FaSnowflake className="text-9xl animate-spin-slow" />
             </div>
 
             {/* Header - Fixed height */}
-            <div className="flex-shrink-0 flex items-center gap-4 mb-4 backdrop-blur-md bg-white/5 p-4 rounded-2xl border border-white/10 shadow-xl relative z-10">
+            <div className="flex-shrink-0 flex items-center gap-4 mb-4 mt-8 backdrop-blur-md bg-white/5 p-4 rounded-2xl border border-white/10 shadow-xl relative z-10">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-white/10 flex items-center justify-center border-2 border-white/20 shadow-lg">
-                    <img src="/images/characters/santa.png" alt="Santa" className="w-full h-full object-cover" />
+                    <img src="/images/characters/santa_portrait.png" alt="Santa" className="w-full h-full object-cover" />
                 </div>
                 <div>
                     <h1 className="text-xl font-bold text-white flex items-center gap-2">
-                        Talk with AI Santa <FaMagic className="text-amber-400 text-xs" />
+                        Talk with AI Santa
                     </h1>
-                    <p className="text-xs text-green-400 flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <p className="text-xs text-green-200 flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full bg-green-200 animate-pulse"></span>
                         Online at North Pole
                     </p>
+
                 </div>
             </div>
 
