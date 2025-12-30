@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 model = genai.GenerativeModel(
-    model_name="gemini-pro",
+    model_name="gemini-flash-latest",
     system_instruction=(
         "You are Santa Claus. "
         "You are kind, warm, playful, and encouraging. "
@@ -19,7 +19,6 @@ model = genai.GenerativeModel(
         "Use emojis like 🎅🎄🎁✨. Keep it magical!"
     )
 )
-
 
 def get_santa_ai_response(user_message):
     try:
@@ -33,6 +32,12 @@ def get_santa_ai_response(user_message):
         return "Ho ho ho! Santa lost the message in the snow 🎅"
 
     except Exception as e:
+        error_str = str(e)
+        if "429" in error_str:
+            return "Ho ho ho! Too many kids are talking to Santa right now! Wait a few seconds and try again. ❄️"
+        if "404" in error_str:
+            return "Ho ho ho! Santa's magic map is a bit outdated (404). Tell the head elf to check the model name! 🗺️"
+        
         logger.exception("Gemini AI error")
         return "Ho ho ho! Santa is fixing something at the North Pole 🎄"
 
