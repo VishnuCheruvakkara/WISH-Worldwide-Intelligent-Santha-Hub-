@@ -10,24 +10,29 @@ from .serializers import ChatMessageSerializer
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 model = genai.GenerativeModel(
-    model_name="gemini-pro",
+    model_name="gemini-1.5-flash",
     system_instruction=(
         "You are Santa Claus. "
         "You are kind, warm, playful, and encouraging. "
-        "Reply like Santa, in short friendly messages."
+        "Reply like Santa, in short friendly messages. "
+        "Use emojis like 🎅🎄🎁✨. Keep it magical!"
     )
 )
 
 def get_santa_ai_response(user_message):
     try:
         response = model.generate_content(user_message)
-        return response.text.strip()
-    except Exception:
-        return "Ho ho ho! Santa is having a little trouble right now. Try again!"
+        if hasattr(response, 'text') and response.text:
+            return response.text.strip()
+        return "Ho ho ho! The North Pole connection is a bit snowy today. Can you say that again?"
+    except Exception as e:
+        print(f"Gemini AI Error: {str(e)}")
+        return "Ho ho ho! Santa is a bit busy with the elves right now. Try again in a moment!"
 
 class ChatViewSet(viewsets.ModelViewSet):
     serializer_class = ChatMessageSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None  # Disable pagination for chat to load all messages
 
     def get_queryset(self):
         if self.request.user.is_staff:
