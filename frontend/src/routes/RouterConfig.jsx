@@ -13,14 +13,13 @@ import UserLayout from '../layouts/UserLayout';
 import AdminLayout from '../layouts/AdminLayout';
 
 // Pages
-import DashboardPage from '../pages/dashboard/DashboardPage';
 import MyWishesPage from '../pages/wishes/MyWishesPage';
-import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import SanthaWishesPage from '../pages/admin/SanthaWishesPage';
 import SantaChatPage from '../pages/chat/SantaChatPage';
 import AdminChatListPage from '../pages/admin/AdminChatListPage';
 import AdminUserChatPage from '../pages/admin/AdminUserChatPage';
 import AdminUserManagementPage from '../pages/admin/AdminUserManagementPage';
+import GalleryPage from '../pages/gallery/GalleryPage';
 
 // Route Guards
 import { PublicRoute, ProtectedRoute, AdminRoute } from './guards';
@@ -82,7 +81,7 @@ const RouterConfig = () => {
                 </ProtectedRoute>
             ),
             children: [
-                { path: '/dashboard', element: <DashboardPage /> },
+                { path: '/dashboard', element: <GalleryPage /> },
                 { path: '/profile', element: <div className="p-10 text-center text-2xl">Spirit Profile (Coming Soon)</div> },
                 { path: '/wishes', element: <MyWishesPage /> },
                 { path: '/chat', element: <SantaChatPage /> },
@@ -98,7 +97,7 @@ const RouterConfig = () => {
                 </AdminRoute>
             ),
             children: [
-                { path: 'dashboard', element: <AdminDashboardPage /> },
+                { path: 'dashboard', element: <GalleryPage /> },
                 { path: 'users', element: <AdminUserManagementPage /> },
                 { path: 'wishes', element: <SanthaWishesPage /> },
                 { path: 'chat', element: <AdminChatListPage /> },

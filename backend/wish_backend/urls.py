@@ -6,4 +6,5 @@ urlpatterns = [
     path("users/", include("apps.users.urls")),
     path("wishes/", include("wishes.urls")),
     path("chat/", include("chat.urls")),
+    path("gallery/", include("gallery.urls")),
 ]

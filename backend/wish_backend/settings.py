@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import sys
 import environ
 from pathlib import Path
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "users",
     "wishes",
     "chat",
+    "gallery",
 ]
 
 AUTH_USER_MODEL = "users.CustomUser"
@@ -194,3 +196,10 @@ LOGGING = {
 
 
 GEMINI_API_KEY = env("GEMINI_API_KEY")
+
+# Cloudinary configurations
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_CLOUD_NAME"),
+    api_key=env("CLOUDINARY_API_KEY"),
+    api_secret=env("CLOUDINARY_API_SECRET"),
+)

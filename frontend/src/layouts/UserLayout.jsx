@@ -3,7 +3,7 @@ import MainLayout from './MainLayout';
 import { FaGift, FaHome, FaCommentDots } from 'react-icons/fa';
 
 const userMenuItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: FaHome },
+    { label: 'Gallery', path: '/dashboard', icon: FaHome },
     { label: 'My Wishes', path: '/wishes', icon: FaGift },
     { label: 'Santa Chat', path: '/chat', icon: FaCommentDots },
 ];
