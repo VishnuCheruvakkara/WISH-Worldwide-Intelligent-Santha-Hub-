@@ -51,7 +51,7 @@ const AdminUserManagementPage = () => {
             setTotalPages(Math.ceil((data.count || 0) / 5));
             setPage(pageNumber);
         } catch (error) {
-            showToast.error("Failed to fetch magical citizens.");
+            // showToast.error("Failed to fetch magical citizens.");
         } finally {
             setLoading(false);
         }
