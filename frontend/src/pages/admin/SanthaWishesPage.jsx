@@ -50,12 +50,30 @@ const SanthaWishesPage = () => {
             };
             const data = await wishService.getAdminUserWishes(params);
 
-            setUsers(data.results || []);
-            setTotalUsers(data.count);
-            setTotalPages(Math.ceil(data.count / PAGE_SIZE));
+            // DRF paginated response from our custom pagination class
+            const results = data.results || (Array.isArray(data) ? data : []);
+            const count = data.count !== undefined ? data.count : results.length;
+            const backendTotalPages = data.total_pages;
+
+            setUsers(results);
+            setTotalUsers(count);
+
+            // Prefer backend total_pages, fall back to manual calculation if needed
+            const calculatedTotalPages = backendTotalPages !== undefined
+                ? backendTotalPages
+                : Math.max(1, Math.ceil(count / PAGE_SIZE));
+
+            setTotalPages(calculatedTotalPages);
+
+            // If we are on a page that doesn't exist anymore (e.g. after filtering)
+            if (currentPage > calculatedTotalPages && calculatedTotalPages > 0) {
+                setCurrentPage(1);
+                return;
+            }
 
         } catch (error) {
-            // Error handled silently
+            console.error("Error fetching wishes:", error);
+            showToast.error("Failed to load wishes. Please try again.");
         } finally {
             setLoading(false);
         }

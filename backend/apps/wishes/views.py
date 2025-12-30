@@ -7,10 +7,12 @@ from django.db.models import Prefetch
 
 User = get_user_model()
 from .serializers import WishSerializer, UserWishesSerializer
+from .pagination import StandardResultsSetPagination
 
 class AdminUserWishViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserWishesSerializer
     permission_classes = [permissions.IsAdminUser]
+    pagination_class = StandardResultsSetPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'email', 'wishes__content']
 
@@ -36,6 +38,7 @@ class AdminUserWishViewSet(viewsets.ReadOnlyModelViewSet):
 class WishViewSet(viewsets.ModelViewSet):
     serializer_class = WishSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['content', 'user__username']
 
