@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from .views import (
     SignUp,
     SignIn,
@@ -7,8 +8,12 @@ from .views import (
     GetUserData,
     GetCSRFToken,
     AdminSignIn,
-    GoogleCallbackAPI
+    GoogleCallbackAPI,
+    UserManagementViewSet
 )
+
+router = DefaultRouter()
+router.register(r'admin/management', UserManagementViewSet, basename='user-management')
 
 urlpatterns = [
     path("sign-up/", SignUp.as_view(), name="sign-up"),
@@ -19,5 +24,5 @@ urlpatterns = [
     path("csrf/", GetCSRFToken.as_view(), name="get-csrf"),
     path("admin-login/", AdminSignIn.as_view(), name="admin-login"),
     path("google/callback/", GoogleCallbackAPI.as_view(), name="google_callback"),
-
+    path("", include(router.urls)),
 ]

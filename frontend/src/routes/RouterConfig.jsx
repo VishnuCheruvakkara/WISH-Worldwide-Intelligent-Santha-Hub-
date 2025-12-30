@@ -20,6 +20,7 @@ import SanthaWishesPage from '../pages/admin/SanthaWishesPage';
 import SantaChatPage from '../pages/chat/SantaChatPage';
 import AdminChatListPage from '../pages/admin/AdminChatListPage';
 import AdminUserChatPage from '../pages/admin/AdminUserChatPage';
+import AdminUserManagementPage from '../pages/admin/AdminUserManagementPage';
 
 // Route Guards
 import { PublicRoute, ProtectedRoute, AdminRoute } from './guards';
@@ -98,7 +99,7 @@ const RouterConfig = () => {
             ),
             children: [
                 { path: 'dashboard', element: <AdminDashboardPage /> },
-                { path: 'users', element: <div className="p-10 text-center text-2xl text-santa-red">Naughty & Nice List (Restricted)</div> },
+                { path: 'users', element: <AdminUserManagementPage /> },
                 { path: 'wishes', element: <SanthaWishesPage /> },
                 { path: 'chat', element: <AdminChatListPage /> },
                 { path: 'chat/:userId', element: <AdminUserChatPage /> },

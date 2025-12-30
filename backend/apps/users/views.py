@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets, permissions
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAdminUser
 from django.contrib.auth import get_user_model
-from .serializers import SignUpSerializer, LoginSerializer,CustomTokenRefreshSerializer
+from .serializers import SignUpSerializer, LoginSerializer, CustomTokenRefreshSerializer, UserSerializer
 from .utils import (
     generate_tokens_for_user,
     set_refresh_token_cookie,
@@ -338,3 +339,57 @@ class GoogleCallbackAPI(APIView):
 
         except Exception as e:
             return Response({"error": "Authentication failed", "details": str(e)}, status=500)
+
+
+class UserManagementPagination(PageNumberPagination):
+    page_size = 5
+
+
+class UserManagementViewSet(viewsets.ModelViewSet):
+    """
+    Admin ViewSet for managing users.
+    """
+    queryset = User.objects.all().order_by("-date_joined")
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser]
+    pagination_class = UserManagementPagination
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.query_params.get("search", "")
+        if search_query:
+            from django.db.models import Q
+            queryset = queryset.filter(
+                Q(username__icontains=search_query) | Q(email__icontains=search_query)
+            )
+        return queryset
+
+    @action(detail=True, methods=["post"])
+    def toggle_status(self, request, pk=None):
+        user = self.get_object()
+        
+        # Prevent blocking yourself
+        if user == request.user:
+            return Response(
+                {"status": "error", "message": "You cannot block yourself!"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if user.is_staff and not request.user.is_superuser:
+            return Response(
+                {"status": "error", "message": "Non-superuser admins cannot block other admins."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        
+        user.is_active = not user.is_active
+        user.save()
+        
+        status_msg = "unblocked" if user.is_active else "blocked"
+        return Response({
+            "status": "success",
+            "message": f"User {user.username} has been {status_msg}.",
+            "data": {
+                "id": user.id,
+                "is_active": user.is_active
+            }
+        })
