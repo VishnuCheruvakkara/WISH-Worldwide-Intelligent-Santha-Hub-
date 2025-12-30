@@ -1,16 +1,17 @@
+import logging
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.conf import settings
 import google.generativeai as genai
-
 from .models import ChatMessage
 from .serializers import ChatMessageSerializer
+logger = logging.getLogger(__name__)
 
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-pro",
     system_instruction=(
         "You are Santa Claus. "
         "You are kind, warm, playful, and encouraging. "
@@ -19,15 +20,21 @@ model = genai.GenerativeModel(
     )
 )
 
+
 def get_santa_ai_response(user_message):
     try:
+
         response = model.generate_content(user_message)
-        if hasattr(response, 'text') and response.text:
+
+        if response and hasattr(response, "text"):
             return response.text.strip()
-        return "Ho ho ho! The North Pole connection is a bit snowy today. Can you say that again?"
+
+        logger.warning("Gemini returned empty response")
+        return "Ho ho ho! Santa lost the message in the snow 🎅"
+
     except Exception as e:
-        print(f"Gemini AI Error: {str(e)}")
-        return "Ho ho ho! Santa is a bit busy with the elves right now. Try again in a moment!"
+        logger.exception("Gemini AI error")
+        return "Ho ho ho! Santa is fixing something at the North Pole 🎄"
 
 class ChatViewSet(viewsets.ModelViewSet):
     serializer_class = ChatMessageSerializer
