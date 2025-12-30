@@ -16,7 +16,7 @@ const GalleryPhoto = ({ item }) => {
             >
                 {/* Photo Frame - "Stamp/Polaroid" design */}
                 <div className="bg-white p-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-gray-200 relative">
-                    <div className="aspect-square overflow-hidden relative group-hover:cursor-zoom-in" onClick={() => setIsZoomed(true)}>
+                    <div className="aspect-square overflow-hidden relative group-hover:cursor-pointer " onClick={() => setIsZoomed(true)}>
                         <img
                             src={item.image_url}
                             alt={item.caption}
@@ -32,15 +32,15 @@ const GalleryPhoto = ({ item }) => {
 
                     {/* Content below image */}
                     <div className="mt-4 px-1 pb-2">
-                        <FaQuoteLeft className="text-santa-red/20 text-xs mb-1" />
-                        <p className="text-gray-800 text-xs font-medium line-clamp-2 italic leading-relaxed">
+                        <FaQuoteLeft className="text-santa-red text-xs mb-1" />
+                        <p className="text-santa-red text-xs font-medium line-clamp-2 italic leading-relaxed">
                             {item.caption}
                         </p>
                         <div className="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between">
-                            <span className="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">
+                            <span className="text-[9px] text-gray-900 font-bold uppercase tracking-tighter">
                                 {item.username}
                             </span>
-                            <span className="text-[8px] text-gray-300 font-mono">
+                            <span className="text-[8px] text-gray-600 font-mono">
                                 #{item.id.toString().padStart(4, '0')}
                             </span>
                         </div>

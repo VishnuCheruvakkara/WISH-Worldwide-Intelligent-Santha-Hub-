@@ -28,7 +28,7 @@ const Navbar = () => {
         try {
             await AuthenticateAxios.post('/users/logout/');
         } catch (error) {
-            console.error('Logout failed:', error);
+            // console.error('Logout failed:', error);
         } finally {
             dispatch(logoutSuccess());
             navigate('/login');

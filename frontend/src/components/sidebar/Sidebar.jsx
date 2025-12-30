@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
     FaHome,
     FaUser,
@@ -14,6 +15,7 @@ import {
 
 const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
     const location = useLocation();
+    const { user } = useSelector((state) => state.userAuth);
 
     return (
         <motion.div
@@ -93,8 +95,8 @@ const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
             {/* User Profile Summary */}
             <div className="p-4 border-t border-white/5">
                 <div className={`flex items-center ${isOpen ? 'justify-start' : 'justify-center'} transition-all duration-300`}>
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-santa-red font-bold animate-pulse-slow">
-                        S
+                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-santa-red font-bold animate-pulse-slow uppercase truncate">
+                        {user?.username?.charAt(0) || <FaUser size={14} />}
                     </div>
                     <AnimatePresence>
                         {isOpen && (
@@ -102,9 +104,9 @@ const Sidebar = ({ menuItems, isOpen, toggleSidebar }) => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
-                                className="ml-3 overflow-hidden"
+                                className="ml-3 overflow-hidden text-ellipsis"
                             >
-                                <p className="text-sm font-semibold text-white whitespace-nowrap">Santha User</p>
+                                <p className="text-sm font-semibold text-white truncate max-w-[170px]">{user?.username || 'Guest'}</p>
                                 <p className="text-[10px] text-gray-500 uppercase tracking-widest whitespace-nowrap">Online</p>
                             </motion.div>
                         )}

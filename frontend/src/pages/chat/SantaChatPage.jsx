@@ -45,8 +45,8 @@ const SantaChatPage = () => {
             const messageList = Array.isArray(data) ? data : (data.results || []);
             setMessages(messageList);
         } catch (error) {
-            console.error("Fetch error:", error);
-            showToast.error("Couldn't reach the North Pole.");
+            // console.error("Fetch error:", error);
+            // showToast.error("Couldn't reach the North Pole.");
         } finally {
             setLoading(false);
         }

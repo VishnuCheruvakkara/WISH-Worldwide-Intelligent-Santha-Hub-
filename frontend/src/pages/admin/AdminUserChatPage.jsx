@@ -49,7 +49,7 @@ const AdminUserChatPage = () => {
             const data = await chatService.getUserChatHistory(userId);
             setMessages(data);
         } catch (error) {
-            showToast.error("Failed to fetch chat log.");
+            // showToast.error("Failed to fetch chat log.");
         } finally {
             setLoading(false);
         }

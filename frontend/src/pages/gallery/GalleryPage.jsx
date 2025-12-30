@@ -28,7 +28,8 @@ const GalleryPage = () => {
             const data = await galleryService.getGalleryItems();
             setItems(data?.results || data || []);
         } catch (error) {
-            showToast.error("Could not load the magic gallery!");
+            // console.error("Fetch error:", error);
+            // showToast.error("Couldn't reach the North Pole.");
         } finally {
             setLoading(false);
         }
