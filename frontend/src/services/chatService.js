@@ -12,8 +12,8 @@ const sendMessage = async (content) => {
     return response.data;
 };
 
-const getAllUsersChats = async () => {
-    const response = await AuthenticateAxios.get(`${CHAT_URL}all_users_chats/`);
+const getAllUsersChats = async (params) => {
+    const response = await AuthenticateAxios.get(`${CHAT_URL}all_users_chats/`, { params });
     return response.data;
 };
 

@@ -79,14 +79,29 @@ class ChatViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"], permission_classes=[permissions.IsAdminUser])
     def all_users_chats(self, request):
         from django.contrib.auth import get_user_model
+        from django.core.paginator import Paginator
+        from django.db.models import Max, Q
+        
         User = get_user_model()
+        search_query = request.query_params.get('search', '')
+        page_number = request.query_params.get('page', 1)
+        page_size = 5 # Match wishes page size
 
+        # Subquery or annotation to get last chat timestamp for ordering
         users_with_chats = User.objects.filter(
             chat_messages__isnull=False
-        ).distinct()
+        ).annotate(
+            last_chat_time=Max('chat_messages__timestamp')
+        ).distinct().order_by('-last_chat_time')
+
+        if search_query:
+            users_with_chats = users_with_chats.filter(username__icontains=search_query)
+
+        paginator = Paginator(users_with_chats, page_size)
+        page_obj = paginator.get_page(page_number)
 
         data = []
-        for user in users_with_chats:
+        for user in page_obj:
             last_message = ChatMessage.objects.filter(
                 user=user
             ).latest("timestamp")
@@ -98,7 +113,10 @@ class ChatViewSet(viewsets.ModelViewSet):
                 "last_timestamp": last_message.timestamp,
             })
 
-        return Response(data)
+        return Response({
+            "count": paginator.count,
+            "results": data
+        })
 
     @action(detail=True, methods=["get"], permission_classes=[permissions.IsAdminUser])
     def user_chat_history(self, request, pk=None):
