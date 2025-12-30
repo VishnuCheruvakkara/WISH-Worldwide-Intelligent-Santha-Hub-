@@ -11,7 +11,7 @@ import { FaSnowflake } from "react-icons/fa";
 
 import CommonSpinner from '../../components/ui/spinner/CommonSpinner';
 
-export default function GoogleAuthButton() {
+export default function GoogleAuthButton({ onLoadingChange }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -21,6 +21,7 @@ export default function GoogleAuthButton() {
         scope: "openid email profile",
         onSuccess: async (tokenResponse) => {
             setLoading(true);
+            if (onLoadingChange) onLoadingChange(true);
 
             try {
                 const access_token = tokenResponse.access_token;
@@ -49,11 +50,15 @@ export default function GoogleAuthButton() {
                 } else {
                     showToast.error("Google login failed! The snowstorm might be blocking it.");
                 }
-            } finally {
                 setLoading(false);
+                if (onLoadingChange) onLoadingChange(false);
             }
         },
-        onError: () => showToast.error("Google Login Cancelled"),
+        onError: () => {
+            showToast.error("Google Login Cancelled");
+            setLoading(false);
+            if (onLoadingChange) onLoadingChange(false);
+        },
     });
 
     return (

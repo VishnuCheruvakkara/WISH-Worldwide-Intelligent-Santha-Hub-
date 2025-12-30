@@ -7,10 +7,11 @@ User = get_user_model()
 
 class WishSerializer(serializers.ModelSerializer):
     user_username = serializers.CharField(source='user.username', read_only=True)
+    status = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Wish
-        fields = ['id', 'user_username', 'content', 'is_granted', 'created_at']
+        fields = ['id', 'user_username', 'content', 'is_granted', 'status', 'created_at']
         read_only_fields = ['id', 'created_at', 'user_username']
 
     def validate(self, attrs):
@@ -22,6 +23,10 @@ class WishSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
+
+    def get_status(self, obj):
+        # Map boolean field to a human-friendly status string.
+        return 'Granted' if obj.is_granted else 'Pending'
 
 class UserWishesSerializer(serializers.ModelSerializer):
     wishes = WishSerializer(many=True, read_only=True)

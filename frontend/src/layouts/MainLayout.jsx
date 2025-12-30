@@ -15,7 +15,7 @@ const MainLayout = ({ menuItems }) => {
     return (
         <div className="min-h-screen bg-santa-navy-dark text-white flex flex-col overflow-hidden">
             {/* Blurred Christmas Scene Background */}
-            <div className="fixed inset-0 opacity-40 pointer-events-none z-0">
+            <div className="fixed inset-0 opacity-30 pointer-events-none z-0">
                 <ChristmasScene />
             </div>
 

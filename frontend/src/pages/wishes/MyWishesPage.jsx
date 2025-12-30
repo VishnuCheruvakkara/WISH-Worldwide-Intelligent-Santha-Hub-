@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik';
 import wishService from '../../services/wishServices/wishService';
 import { FaMagic, FaPlus, FaSnowflake } from 'react-icons/fa';
 import ChristmasModal from '../../components/ui/modal/ChristmasModal';
+import CommonSpinner from '../../components/ui/spinner/CommonSpinner';
 import { showToast } from '../../components/ui/toast/ChrisToast';
 import TextArea from '../../components/ui/input/TextArea';
 import { WishSchema } from '../../validations/WishSchema';
@@ -20,6 +21,7 @@ const MyWishesPage = () => {
 
     // Temporary state to hold form data for the modal confirmation
     const [pendingWish, setPendingWish] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
         fetchWishes();
@@ -32,7 +34,7 @@ const MyWishesPage = () => {
             // Ensure array even if backend response varies
             setWishes(Array.isArray(data) ? data : (data.results || []));
         } catch (error) {
-            showToast.error("Failed to fetch your wishes. The elves are investigating.");
+            // Error handled silently
         } finally {
             setLoading(false);
         }
@@ -43,8 +45,16 @@ const MyWishesPage = () => {
         setIsModalOpen(true);
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setPendingWish(null);
+        setFocusedSlot(null);
+    };
+
     const handleConfirmWish = async () => {
         setIsModalOpen(false);
+
+        setIsProcessing(true);
 
         if (wishes.length >= MAX_WISHES) {
             showToast.error("You have already used all your wishes!");
@@ -60,6 +70,8 @@ const MyWishesPage = () => {
             showToast.success("Your wish has been sent to Santa!");
         } catch (error) {
             showToast.error("Could not make a wish. Magic interference?");
+        } finally {
+            setIsProcessing(false);
         }
     };
 
@@ -72,6 +84,16 @@ const MyWishesPage = () => {
             const isNext = !isFilled && i === wishes.length;
             const isLocked = !isFilled && i > wishes.length;
             const isFocused = focusedSlot === i;
+            // Determine status text and whether wish is granted/approved
+            const statusText = isFilled ? (wish.status || (wish.is_granted ? 'Granted' : 'Pending')) : '';
+            const statusLower = statusText ? String(statusText).toLowerCase() : '';
+            const isGranted = statusLower === 'granted' || statusLower === 'approved' || !!(wish && wish.is_granted);
+            const badgeClass = isGranted
+                ? 'bg-gradient-to-r from-emerald-400 to-green-600 text-white shadow-[0_10px_50px_rgba(16,185,129,0.28)] animate-pulse-slow'
+                : 'bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-500 text-white shadow-[0_10px_40px_rgba(255,165,0,0.28)] animate-pulse-slow';
+            const iconWrapperClass = isGranted
+                ? 'bg-white/5 p-3 rounded-full mb-2 shadow-[0_0_20px_rgba(34,197,94,0.25)]'
+                : 'bg-white/10 p-3 rounded-full mb-2 shadow-[0_0_15px_rgba(255,215,0,0.3)] animate-pulse-slow';
 
             slots.push(
                 <motion.div
@@ -144,8 +166,14 @@ const MyWishesPage = () => {
 
                     {isFilled ? (
                         <div className="flex flex-col h-full justify-between items-center w-full relative z-10">
-                            <div className="bg-white/10 p-3 rounded-full mb-2 shadow-[0_0_15px_rgba(255,215,0,0.3)] animate-pulse-slow">
-                                <FaMagic className="text-yellow-300 text-xl drop-shadow-md" />
+                            {/* Status badge attached to left-top corner (elevated, orange-yellow with glow) */}
+                            <div className="absolute top-0 left-0 -translate-x-6 -translate-y-[26px] z-30 pointer-events-none">
+                                <div className={`font-bold pointer-events-auto inline-flex items-center justify-center ${badgeClass} px-[40px] py-[8px] rounded-r-full text-xs backdrop-blur-sm`}>
+                                    {statusText}
+                                </div>
+                            </div>
+                            <div className={iconWrapperClass}>
+                                <FaMagic className={`${isGranted ? 'text-emerald-300' : 'text-yellow-300'} text-xl drop-shadow-md`} />
                             </div>
                             <div className="flex-grow flex items-center justify-center w-full">
                                 <p className="text-base font-medium text-white line-clamp-4 overflow-hidden break-words w-full px-2 italic drop-shadow-sm">
@@ -153,10 +181,9 @@ const MyWishesPage = () => {
                                 </p>
                             </div>
                             <div className="mt-3 flex flex-col items-center gap-1 w-full">
-                                <span className="text-[10px] uppercase tracking-widest text-santa-red font-bold drop-shadow-sm">Granted on</span>
                                 <DateFormatter
                                     dateString={wish.created_at}
-                                    className="text-[10px] text-white/80 bg-black/30 px-3 py-1 rounded-full border border-white/5 backdrop-blur-sm"
+                                    className="text-[10px] text-white bg-black/30 px-3 py-1 rounded-full border border-white/5 backdrop-blur-sm"
                                 />
                             </div>
                         </div>
@@ -186,7 +213,7 @@ const MyWishesPage = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setFocusedSlot(null)}
-                                                    className="flex-1 px-4 py-2 bg-transparent hover:bg-white/10 text-white/70 rounded-full font-medium text-sm transition-all border border-white/10"
+                                                    className="flex-1 px-4 py-2 bg-transparent hover:bg-white/10 text-white rounded-full font-medium text-sm transition-all border border-white/10"
                                                 >
                                                     Cancel
                                                 </button>
@@ -206,14 +233,14 @@ const MyWishesPage = () => {
                             <div className="flex flex-col items-center justify-center h-full relative z-10">
                                 <FaPlus className="text-santa-red text-4xl mb-4 opacity-70 group-hover:scale-110 transition-transform" />
                                 <h3 className="text-xl font-bold text-santa-red">Make a Wish</h3>
-                                <p className="text-sm text-white/60">Tap to unlock slot #{i + 1}</p>
+                                <p className="text-sm text-white/80">Tap to unlock slot #{i + 1}</p>
                             </div>
                         )
                     ) : (
                         <div className="flex flex-col items-center justify-center h-full relative z-10">
                             <FaSnowflake className="text-white/10 text-4xl mb-4" />
-                            <p className="text-sm text-white/30">Locked</p>
-                            <p className="text-xs text-white/20 mt-2">Use previous wish first</p>
+                            <p className="text-sm text-white/60">Locked</p>
+                            <p className="text-xs text-white/50 mt-2">Use previous wish first</p>
                         </div>
                     )}
                 </motion.div>
@@ -224,6 +251,7 @@ const MyWishesPage = () => {
 
     return (
         <div className="min-h-screen pt-24 px-4 pb-12 relative overflow-hidden">
+            {isProcessing && <CommonSpinner />}
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
                 <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px]" />
@@ -238,7 +266,7 @@ const MyWishesPage = () => {
                     <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-yellow-200 mb-4 inline-block">
                         Your 3 Wishes
                     </h1>
-                    <p className="text-xl text-white/70 max-w-2xl mx-auto">
+                    <p className="text-xl text-white/80 max-w-2xl mx-auto">
                         Santha grants exactly three wishes. Choose wisely, for magic is a precious resource.
                     </p>
                 </motion.div>
@@ -267,7 +295,7 @@ const MyWishesPage = () => {
                 {/* Confirmation Modal */}
                 <ChristmasModal
                     isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={closeModal}
                     onConfirm={handleConfirmWish}
                     title="Confirm Your Wish"
                     confirmText="Yes, Grant it!"

@@ -18,6 +18,7 @@ import GoogleAuthButton from '../../components/GoogleAuthButton.jsx/GoogleAuthBu
 const SignupPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [googleLoading, setGoogleLoading] = useState(false);
 
     const initialValues = {
         username: '',
@@ -72,7 +73,7 @@ const SignupPage = () => {
                 >
                     {({ isSubmitting }) => (
                         <>
-                            {isSubmitting && <CommonSpinner />}
+                            {(isSubmitting || googleLoading) && <CommonSpinner />}
                             <div className="w-full max-w-md p-0 sm:p-2">
                                 <div className="bg-[#002455]/80 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
                                     {/* Decor */}
@@ -84,7 +85,7 @@ const SignupPage = () => {
                                     </div>
 
                                     <div className="mb-6 space-y-4">
-                                        <GoogleAuthButton />
+                                        <GoogleAuthButton onLoadingChange={setGoogleLoading} />
 
                                         <div className="relative flex items-center py-2">
                                             <div className="flex-grow border-t border-white/10"></div>

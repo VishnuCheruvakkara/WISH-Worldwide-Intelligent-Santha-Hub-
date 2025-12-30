@@ -7,6 +7,7 @@ import Button from '../ui/button/Button';
 import HamburgerMenu from './HamburgerMenu';
 import { logoutSuccess } from '../../redux/Slice/userAuthSlice';
 import AuthenticateAxios from '../../axios/AuthenticateAxios';
+import CommonSpinner from '../ui/spinner/CommonSpinner';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +21,10 @@ const Navbar = () => {
     }, [location]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = async () => {
+        setIsLoggingOut(true);
         try {
             await AuthenticateAxios.post('/users/logout/');
         } catch (error) {
@@ -29,6 +32,7 @@ const Navbar = () => {
         } finally {
             dispatch(logoutSuccess());
             navigate('/login');
+            setIsLoggingOut(false);
         }
     };
 
@@ -40,6 +44,7 @@ const Navbar = () => {
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50">
+            {isLoggingOut && <CommonSpinner />}
             {/* Main Header */}
             <div className="relative z-[70] px-6 py-3 flex items-center justify-between backdrop-blur-md bg-santa-navy-dark/90 border-b border-white/5">
                 {/* Brand */}

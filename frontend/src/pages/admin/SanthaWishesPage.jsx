@@ -24,6 +24,12 @@ const SanthaWishesPage = () => {
 
     const PAGE_SIZE = 5;
 
+    const handlePageChange = (page) => {
+        const pageNum = parseInt(page, 10);
+        if (isNaN(pageNum) || pageNum < 1) return;
+        setCurrentPage(pageNum);
+    };
+
     const filterOptions = [
         { value: 'all', label: 'All Wishes', icon: FaFilter },
         { value: 'granted', label: 'Approved', icon: FaCheck },
@@ -49,7 +55,7 @@ const SanthaWishesPage = () => {
             setTotalPages(Math.ceil(data.count / PAGE_SIZE));
 
         } catch (error) {
-            showToast.error("Failed to load user lists from the North Pole database.");
+            // Error handled silently
         } finally {
             setLoading(false);
         }
@@ -317,7 +323,7 @@ const SanthaWishesPage = () => {
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    onPageChange={setCurrentPage}
+                    onPageChange={handlePageChange}
                 />
             </div>
 
