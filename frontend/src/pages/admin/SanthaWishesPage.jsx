@@ -10,25 +10,21 @@ import { showToast } from '../../components/ui/toast/ChrisToast';
 import NoResultsFound from '../../components/ui/empty/NoResultsFound';
 import CustomSelect from '../../components/ui/select/CustomSelect';
 import ChristmasModal from '../../components/ui/modal/ChristmasModal';
+import useDebounce from '../../hooks/useDebounce';
 
 const SanthaWishesPage = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const [totalUsers, setTotalUsers] = useState(0);
     const [statusFilter, setStatusFilter] = useState('all');
     const [expandedUsers, setExpandedUsers] = useState({});
     const [modalConfig, setModalConfig] = useState({ isOpen: false, type: '', data: null });
 
-    const PAGE_SIZE = 5;
+    const debouncedSearch = useDebounce(searchQuery, 800);
 
-    const handlePageChange = (page) => {
-        const pageNum = parseInt(page, 10);
-        if (isNaN(pageNum) || pageNum < 1) return;
-        setCurrentPage(pageNum);
-    };
 
     const filterOptions = [
         { value: 'all', label: 'All Wishes', icon: FaFilter },
@@ -37,51 +33,39 @@ const SanthaWishesPage = () => {
     ];
 
     useEffect(() => {
-        fetchData();
-    }, [currentPage, searchQuery, statusFilter]);
+        fetchData(page);
+    }, [page, debouncedSearch, statusFilter]);
 
-    const fetchData = async () => {
+    const fetchData = async (pageNumber = 1) => {
         try {
             setLoading(true);
+
             const params = {
-                page: currentPage,
-                search: searchQuery,
+                page: pageNumber,
+                search: debouncedSearch,
                 status: statusFilter !== 'all' ? statusFilter : undefined
             };
+
             const data = await wishService.getAdminUserWishes(params);
 
-            // DRF paginated response from our custom pagination class
-            const results = data.results || (Array.isArray(data) ? data : []);
-            const count = data.count !== undefined ? data.count : results.length;
-            const backendTotalPages = data.total_pages;
+            setUsers(data?.results || []);
 
-            setUsers(results);
+
+            const count = data?.count || 0;
             setTotalUsers(count);
-
-            // Prefer backend total_pages, fall back to manual calculation if needed
-            const calculatedTotalPages = backendTotalPages !== undefined
-                ? backendTotalPages
-                : Math.max(1, Math.ceil(count / PAGE_SIZE));
-
-            setTotalPages(calculatedTotalPages);
-
-            // If we are on a page that doesn't exist anymore (e.g. after filtering)
-            if (currentPage > calculatedTotalPages && calculatedTotalPages > 0) {
-                setCurrentPage(1);
-                return;
-            }
-
+            setPage(pageNumber);
+            setTotalPages(Math.ceil(count / 5));
         } catch (error) {
-            console.error("Error fetching wishes:", error);
-            showToast.error("Failed to load wishes. Please try again.");
+            // console.error(error);
         } finally {
             setLoading(false);
         }
     };
 
+
     const handleSearch = (term) => {
         setSearchQuery(term);
-        setCurrentPage(1);
+
     };
 
     const handleGrantWish = async (wish, userIndex) => {
@@ -100,7 +84,7 @@ const SanthaWishesPage = () => {
             await wishService.updateWish(wish.id, { is_granted: newStatus });
             if (newStatus) showToast.success(`Wish granted! 🎄`);
         } catch (error) {
-            fetchData();
+            fetchData(page);
             showToast.error("Magic failure! Could not update wish status.");
         }
     };
@@ -136,7 +120,7 @@ const SanthaWishesPage = () => {
                 const res = await wishService.grantUserWishes(modalConfig.data);
                 showToast.success(res.message);
             }
-            fetchData();
+            fetchData(page);
         } catch (error) {
             showToast.error("Could not perform the Grand Magic.");
         } finally {
@@ -205,7 +189,7 @@ const SanthaWishesPage = () => {
                                 value={statusFilter}
                                 onChange={(val) => {
                                     setStatusFilter(val);
-                                    setCurrentPage(1);
+
                                 }}
                                 icon={FaFilter}
                             />
@@ -338,11 +322,13 @@ const SanthaWishesPage = () => {
                     <NoResultsFound message={`No ${statusFilter !== 'all' ? statusFilter : ''} children found.`} />
                 )}
 
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
+                {totalPages > 1 && (
+                    <Pagination
+                        page={page}
+                        totalPages={totalPages}
+                        onPageChange={fetchData}
+                    />
+                )}
             </div>
 
             <ChristmasModal
