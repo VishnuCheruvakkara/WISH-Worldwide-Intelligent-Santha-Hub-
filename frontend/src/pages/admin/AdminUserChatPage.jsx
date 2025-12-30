@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronLeft, FaUser, FaMagic } from 'react-icons/fa';
+import { FaChevronLeft, FaUser } from 'react-icons/fa';
 import chatService from '../../services/chatService';
 import { showToast } from '../../components/ui/toast/ChrisToast';
+import DateFormatter from '../../utils/date/DateFormatter';
 
 const AdminUserChatPage = () => {
     const { userId } = useParams();
     const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(true);
-    const messagesEndRef = useRef(null);
+    const [userInfo, setUserInfo] = useState({ name: '', email: '' });
+    const chatContainerRef = useRef(null);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const scrollToBottom = (behavior = "smooth") => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: behavior
+            });
+        }
     };
 
     useEffect(() => {
@@ -21,7 +28,17 @@ const AdminUserChatPage = () => {
     }, [userId]);
 
     useEffect(() => {
-        scrollToBottom();
+        if (messages.length > 0) {
+            scrollToBottom();
+            // Try to set user info from the first message that has it
+            const msgWithInfo = messages.find(m => m.username);
+            if (msgWithInfo && !userInfo.name) {
+                setUserInfo({
+                    name: msgWithInfo.username,
+                    email: msgWithInfo.email || ''
+                });
+            }
+        }
     }, [messages]);
 
     const fetchChatHistory = async () => {
@@ -37,9 +54,9 @@ const AdminUserChatPage = () => {
     };
 
     return (
-        <div className="flex flex-col h-[calc(100vh-120px)] sm:h-[calc(100vh-100px)] max-w-4xl mx-auto px-4 py-6">
+        <div className="flex flex-col h-[calc(100vh-140px)] sm:h-[calc(100vh-120px)] max-w-4xl mx-auto px-4 py-6 overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6 backdrop-blur-md bg-white/5 p-4 rounded-2xl border border-white/10 shadow-xl">
+            <div className="flex-shrink-0 flex items-center justify-between mb-6 backdrop-blur-md bg-white/5 p-4 rounded-2xl border border-white/10 shadow-xl relative z-20">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => navigate(-1)}
@@ -47,51 +64,83 @@ const AdminUserChatPage = () => {
                     >
                         <FaChevronLeft />
                     </button>
-                    <div>
-                        <h1 className="text-xl font-bold text-white flex items-center gap-2">
-                            Chat Log <FaMagic className="text-amber-400 text-xs" />
-                        </h1>
-                        <p className="text-xs text-white/40">User ID: {userId}</p>
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-santa-red flex items-center justify-center text-white font-bold uppercase shadow-lg shadow-red-500/20">
+                            {userInfo.name ? userInfo.name.charAt(0) : <FaUser className="text-sm" />}
+                        </div>
+                        <div>
+                            <h1 className="text-base font-bold text-white leading-tight">
+                                {userInfo.name || `User ${userId}`}
+                            </h1>
+                            <p className="text-[10px] text-white/40">{userInfo.email || 'No email available'}</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Chat Area - Read Only for Admin */}
-            <div className="flex-grow overflow-y-auto mb-4 space-y-4 pr-2 custom-scrollbar">
+            <div
+                ref={chatContainerRef}
+                className="flex-grow overflow-y-auto mb-4 space-y-6 pr-2 custom-scrollbar relative z-10 min-h-0"
+            >
                 {loading ? (
                     <div className="flex items-center justify-center h-full">
                         <div className="w-10 h-10 border-4 border-santa-red border-t-transparent rounded-full animate-spin"></div>
                     </div>
+                ) : messages.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
+                        <FaUser className="text-4xl mb-2" />
+                        <p className="text-sm">No messages in this magical thread yet.</p>
+                    </div>
                 ) : (
-                    <AnimatePresence initial={false}>
-                        {messages.map((msg) => (
+                    <div className="flex flex-col gap-6 py-2">
+                        {messages.map((msg, idx) => (
                             <motion.div
-                                key={msg.id}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className={`flex ${msg.is_from_santa ? 'justify-start' : 'justify-end'}`}
+                                key={msg.id || idx}
+                                initial={{ opacity: 0, x: msg.is_from_santa ? -10 : 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className={`flex flex-col ${msg.is_from_santa ? 'items-start' : 'items-end'}`}
                             >
-                                <div className={`max-w-[85%] sm:max-w-[70%] rounded-2xl p-3 shadow-lg relative ${msg.is_from_santa
-                                        ? 'bg-white/10 text-white/90 border border-white/10 rounded-tl-none'
-                                        : 'bg-green-500/20 text-white/90 border border-green-500/30 rounded-tr-none'
+                                <div className={`max-w-[85%] sm:max-w-[70%] rounded-2xl p-4 shadow-xl relative backdrop-blur-md border border-white/20 ${msg.is_from_santa
+                                    ? 'bg-white/10 text-white/90 rounded-tl-none'
+                                    : 'bg-santa-red/80 text-white rounded-tr-none'
                                     }`}>
-                                    <div className="flex items-center gap-1.5 mb-1 opacity-50">
-                                        {msg.is_from_santa ? <span>🎅 Santa AI</span> : <span className="flex items-center gap-1"><FaUser className="text-[10px]" /> User</span>}
+
+                                    {/* Chat Bubble Tail */}
+                                    <div className={`absolute top-0 w-4 h-4 overflow-hidden ${msg.is_from_santa ? '-left-[8px]' : '-right-[8px]'}`}>
+                                        <div className={`w-3 h-3 absolute top-0 rotate-45 ${msg.is_from_santa
+                                            ? 'bg-white/10 left-[4px] border-l border-t border-white/10'
+                                            : 'bg-santa-red/80 right-[4px] border-r border-t border-white/10'
+                                            }`}></div>
                                     </div>
-                                    <p className="text-sm leading-relaxed">{msg.content}</p>
-                                    <span className="text-[10px] opacity-20 mt-1 block text-right">
-                                        {new Date(msg.timestamp).toLocaleString()}
-                                    </span>
+
+                                    {/* Sender Label & Line */}
+                                    <div className="flex flex-col mb-2">
+                                        <span className={`text-[11px] font-black tracking-wider ${msg.is_from_santa ? 'text-santa-red' : 'text-white'}`}>
+                                            {msg.is_from_santa ? 'Santa AI' : 'User'}
+                                        </span>
+                                        <div className="h-[1px] w-full bg-white/10 mt-1" />
+                                    </div>
+
+                                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
+
+                                    <div className="flex justify-end mt-2">
+                                        <DateFormatter
+                                            dateString={msg.timestamp}
+                                            className="text-[9px] text-white/40 font-mono tracking-tighter"
+                                        />
+                                    </div>
                                 </div>
                             </motion.div>
                         ))}
-                        <div ref={messagesEndRef} />
-                    </AnimatePresence>
+                    </div>
                 )}
             </div>
 
-            <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-xl text-center">
-                <p className="text-amber-200 text-xs font-medium">✨ Administrator View Only - Monitoring Active Magic ✨</p>
+            <div className="flex-shrink-0 bg-white/5 border border-white/10 p-3 rounded-xl text-center backdrop-blur-sm">
+                <p className="text-amber-400 text-[10px] font-black uppercase tracking-widest">
+                    ✨ Administrator Mode: Magical Surveillance ✨
+                </p>
             </div>
         </div>
     );
