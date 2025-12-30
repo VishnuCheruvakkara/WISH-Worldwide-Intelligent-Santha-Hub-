@@ -6,6 +6,10 @@ import galleryService from '../../services/galleryService';
 import { showToast } from '../../components/ui/toast/ChrisToast';
 import GalleryModal from '../../components/ui/modal/GalleryModal';
 import GalleryPhoto from '../../components/gallery/GalleryPhoto';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Input from '../../components/ui/input/Input';
+import CommonSpinner from '../../components/ui/spinner/CommonSpinner';
 
 const GalleryPage = () => {
     const { user } = useSelector((state) => state.userAuth);
@@ -13,11 +17,6 @@ const GalleryPage = () => {
     const [loading, setLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-
-    // Form state
-    const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
-    const [caption, setCaption] = useState('');
 
     useEffect(() => {
         fetchGallery();
@@ -38,44 +37,41 @@ const GalleryPage = () => {
     const userItemCount = items.filter(item => item.username === user?.username).length;
     const isLimitReached = !user?.is_admin && userItemCount >= 3;
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+    const validationSchema = Yup.object().shape({
+        caption: Yup.string()
+            .required('A magical quote is required')
+            .max(200, 'Keep it short! Quotes should be under 200 characters.'),
+        image: Yup.mixed()
+            .required('Please pick a beautiful image!')
+            .test('fileSize', 'Image is too large (max 5MB)', (value) => {
+                return !value || (value && value.size <= 5 * 1024 * 1024);
+            })
+            .test('fileFormat', 'Unsupported format (use JPG, JPEG, PNG, or WEBP)', (value) => {
+                return !value || (value && ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'].includes(value.type));
+            }),
+    });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (values, { resetForm }) => {
         if (isLimitReached) {
             showToast.error("You've already shared 3 magical moments!");
-            return;
-        }
-        if (!image) {
-            showToast.error("Please pick a beautiful image!");
             return;
         }
 
         try {
             setSubmitting(true);
+            setIsAddModalOpen(false); // Close modal immediately as requested
+
             const formData = new FormData();
-            formData.append('image', image);
-            formData.append('caption', caption);
+            formData.append('image', values.image);
+            formData.append('caption', values.caption);
 
             await galleryService.addGalleryItem(formData);
             showToast.success("Event added to Christmas Gallery! 🎄");
-            setIsAddModalOpen(false);
-            setImage(null);
-            setImagePreview(null);
-            setCaption('');
+            resetForm();
             fetchGallery();
         } catch (error) {
-            showToast.error("The magic failed. Try again!");
+            showToast.error(error.response?.data?.error || "The magic failed. Try again!");
+            setIsAddModalOpen(true); // Re-open if failed? Or maybe just toast.
         } finally {
             setSubmitting(false);
         }
@@ -83,6 +79,8 @@ const GalleryPage = () => {
 
     return (
         <div className="min-h-screen pt-4 px-3 pb-6 relative overflow-hidden text-white">
+            {submitting && <CommonSpinner />}
+
             <div className="max-w-6xl mx-auto py-4">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -172,96 +170,115 @@ const GalleryPage = () => {
             </div>
 
             {/* Add Event Modal */}
-            <GalleryModal
-                isOpen={isAddModalOpen}
-                onClose={() => {
-                    setIsAddModalOpen(false);
-                    setImage(null);
-                    setImagePreview(null);
-                    setCaption('');
-                }}
-                title="Share a Magical Moment"
+            <Formik
+                initialValues={{ caption: '', image: null }}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
             >
-                <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="space-y-6">
-                        <div className="relative group">
-                            <label className="block text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Event Photo</label>
-                            <div
-                                className={`h-64 rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden flex flex-col items-center justify-center gap-4
-                                    ${imagePreview ? 'border-orange-500/50 bg-orange-500/5' : 'border-white/10 bg-white/5 hover:border-orange-500/30 hover:bg-orange-500/5'}
-                                `}
-                                onClick={() => document.getElementById('image-upload').click()}
-                            >
-                                {imagePreview ? (
-                                    <div className="w-full h-full relative p-2">
-                                        <img src={imagePreview} className="w-full h-full object-cover rounded-2xl" alt="Preview" />
-                                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity">
-                                            <p className="text-white text-xs font-bold uppercase tracking-widest">Change Photo</p>
+                {({ setFieldValue, values, errors, touched, handleBlur }) => {
+                    const [preview, setPreview] = useState(null);
+
+                    const handleImageChange = (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            setFieldValue('image', file);
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                                setPreview(reader.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+
+                    return (
+                        <GalleryModal
+                            isOpen={isAddModalOpen}
+                            onClose={() => {
+                                setIsAddModalOpen(false);
+                                setPreview(null);
+                            }}
+                            title="Share a Magical Moment"
+                        >
+                            <Form className="space-y-8">
+                                <div className="space-y-6">
+                                    <div className="relative group">
+                                        <label className="block text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Event Photo</label>
+                                        <div
+                                            className={`h-64 rounded-3xl border-2 border-dashed transition-all cursor-pointer overflow-hidden flex flex-col items-center justify-center gap-4
+                                                ${preview ? 'border-orange-500/50 bg-orange-500/5' : (errors.image && touched.image ? 'border-red-500/50 bg-red-500/5' : 'border-white/10 bg-white/5 hover:border-orange-500/30 hover:bg-orange-500/5')}
+                                            `}
+                                            onClick={() => document.getElementById('image-upload').click()}
+                                        >
+                                            {preview ? (
+                                                <div className="w-full h-full relative p-2">
+                                                    <img src={preview} className="w-full h-full object-cover rounded-2xl" alt="Preview" />
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity">
+                                                        <p className="text-white text-xs font-bold uppercase tracking-widest">Change Photo</p>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-lg">
+                                                        <FaCloudUploadAlt className="text-3xl text-white/20 group-hover:text-orange-500 transition-colors" />
+                                                    </div>
+                                                    <div className="text-center px-6">
+                                                        <p className="text-sm font-bold text-white/80">Click to upload the magic</p>
+                                                        <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mt-2 leading-relaxed">High quality photos look best in the gallery</p>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                        <input
+                                            id="image-upload"
+                                            name="image"
+                                            type="file"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.image && touched.image && (
+                                            <div className="text-santa-red text-[11px] mt-2 ml-1 font-bold bg-santa-red/10 px-2 py-0.5 rounded-md w-fit">
+                                                {errors.image}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <Input
+                                            name="caption"
+                                            label="Memory / Quote"
+                                            placeholder="Enter a festive quote (e.g. Ho Ho Ho!)..."
+                                        />
+                                        <div className="flex justify-end mt-1">
+                                            <span className={`text-[10px] font-medium ${(values.caption?.length || 0) > 200 ? 'text-red-400' : 'text-white/20'}`}>
+                                                {(values.caption?.length || 0)}/200
+                                            </span>
                                         </div>
                                     </div>
-                                ) : (
-                                    <>
-                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-lg">
-                                            <FaCloudUploadAlt className="text-3xl text-white/20 group-hover:text-orange-500 transition-colors" />
-                                        </div>
-                                        <div className="text-center px-6">
-                                            <p className="text-sm font-bold text-white/80">Click to upload the magic</p>
-                                            <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] mt-2 leading-relaxed">High quality photos look best in the gallery</p>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                            <input
-                                id="image-upload"
-                                type="file"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                            />
-                        </div>
+                                </div>
 
-                        <div>
-                            <label className="block text-xs font-bold text-white/40 uppercase tracking-[0.2em] mb-3">Memory / Quote</label>
-                            <textarea
-                                value={caption}
-                                onChange={(e) => setCaption(e.target.value)}
-                                placeholder="Describe the spirit of this moment or add a festive quote..."
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm text-white focus:outline-none focus:border-orange-500/50 transition-all resize-none h-40 shadow-inner"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex gap-4 pt-4 border-t border-white/5">
-                        <button
-                            type="button"
-                            onClick={() => setIsAddModalOpen(false)}
-                            className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-2xl transition-all cursor-pointer"
-                        >
-                            Back to Gallery
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            className={`flex-[2] py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-xl transition-all active:scale-95 flex items-center justify-center gap-3 cursor-pointer
-                                ${submitting ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-orange-500/40 hover:-translate-y-0.5'}
-                            `}
-                        >
-                            {submitting ? (
-                                <>
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                    <span>Sharing Magic...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <FaPlus size={10} />
-                                    <span>Post to Gallery</span>
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
-            </GalleryModal>
+                                <div className="flex gap-4 pt-4 border-t border-white/5">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddModalOpen(false)}
+                                        className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest rounded-2xl transition-all cursor-pointer"
+                                    >
+                                        Back to Gallery
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-[2] py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-xl transition-all active:scale-95 flex items-center justify-center gap-3 cursor-pointer hover:shadow-orange-500/40 hover:-translate-y-0.5"
+                                    >
+                                        <FaPlus size={10} />
+                                        <span>Post to Gallery</span>
+                                    </button>
+                                </div>
+                            </Form>
+                        </GalleryModal>
+                    );
+                }}
+            </Formik>
         </div>
     );
 };

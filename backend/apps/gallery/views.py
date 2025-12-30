@@ -17,6 +17,19 @@ class GalleryItemViewSet(viewsets.ModelViewSet):
         if not image_file:
             return Response({"error": "Image is required"}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Validation: File size (Max 5MB)
+        if image_file.size > 5 * 1024 * 1024:
+            return Response({"error": "Image size exceeds 5MB limit"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validation: File extension
+        ext = image_file.name.split('.')[-1].lower()
+        if ext not in ['jpg', 'jpeg', 'png', 'webp']:
+            return Response({"error": "Only JPG, JPEG, PNG, and WEBP images are allowed"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validation: Caption length
+        if caption and len(caption) > 200:
+            return Response({"error": "Caption/Quote must be under 200 characters"}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             image_url = upload_to_cloudinary(image_file, folder="wish_gallery")
             gallery_item = GalleryItem.objects.create(
