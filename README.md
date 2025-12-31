@@ -12,7 +12,7 @@
     <img alt="View Live Project" src="https://img.shields.io/badge/Live%20Demo-08122b?style=for-the-badge&logo=vercel&logoColor=white" />
   </a>
   &nbsp;
-  <a href="" target="_blank">
+  <a href="https://youtu.be/Pj2XXlIFt8o" target="_blank">
     <img alt="Watch Demo Video" src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   &nbsp;
