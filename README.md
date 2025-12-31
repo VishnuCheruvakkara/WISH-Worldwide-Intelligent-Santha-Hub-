@@ -8,13 +8,17 @@
 </p>
 
 <p align="center">
- 
+  <a href="" target="_blank">
+    <img alt="View Live Project" src="https://img.shields.io/badge/Live%20Demo-08122b?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
   &nbsp;
   <a href="" target="_blank">
     <img alt="Watch Demo Video" src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   &nbsp;
- 
+  <a href="" target="_blank">
+    <img alt="Connect on LinkedIn" src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=logmein&logoColor=white" />
+  </a>
 </p>
 
 ---
@@ -73,6 +77,7 @@ pip install -r requirements.txt
 
 # Configure Environment Variables
 # Create a .env file based on the provided settings
+# Copy the contents of `.env.example` into `.env`. 
 # Include: DATABASE_URL, CLOUDINARY_URL, SECRET_KEY, GOOGLE_OAUTH_CLIENT_ID
 
 # Run migrations
@@ -92,7 +97,8 @@ cd frontend
 npm install
 
 # Configure Environment Variables
-# Create a .env file with VITE_API_BASE_URL and VITE_GOOGLE_CLIENT_ID
+# Create a .env file
+# Copy the contents of `.env.example` into `.env`. ( add VITE_API_BASE_URL and VITE_GOOGLE_CLIENT_ID etc...)
 
 # Start Sleigh Development Mode
 npm run dev
