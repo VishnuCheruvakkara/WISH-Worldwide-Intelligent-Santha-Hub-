@@ -16,7 +16,7 @@
     <img alt="Watch Demo Video" src="https://img.shields.io/badge/Demo%20Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
   </a>
   &nbsp;
-  <a href="" target="_blank">
+  <a href="https://www.linkedin.com/posts/vishnu-cheruvakkara-231b8b235_newyear-hackathon-fullstackdevelopment-activity-7412110614044577792-OL2_?utm_source=share&utm_medium=member_desktop&rcm=ACoAADq6p4UB7yZEvBWQ6nbkRJlURS5jqlFv_yI" target="_blank">
     <img alt="Connect on LinkedIn" src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=logmein&logoColor=white" />
   </a>
 </p>
